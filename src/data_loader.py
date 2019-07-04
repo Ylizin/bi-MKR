@@ -32,8 +32,8 @@ class RSDataset:
         print('Splitting dataset')
 
         # train:eval:test = 6:2:2
-        eval_ratio = 0.2
-        test_ratio = 0.2
+        eval_ratio = 0.0 # 0.001 maybe better 
+        test_ratio = 0.3
         n_ratings = rating_np.shape[0] # the num of the ratings records
 
                                         #the obj choice conducted on is the indices of all ratings

@@ -118,7 +118,7 @@ def convert_kg(entity2index,user=True):
     print('number of relations: %d' % n_rel_)
 
 if __name__ == '__main__':
-    np.random.seed(555)
+    np.random.seed(42)
     parser = argparse.ArgumentParser()
     # entity2index = {}
     # item2index = {}

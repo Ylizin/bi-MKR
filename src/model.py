@@ -1,10 +1,12 @@
 import sys
 import numpy as np
 import torch
+import pandas as pd
 from tqdm import tqdm
 from torch import nn
 from sklearn.metrics import roc_auc_score
 from layers import Dense, CrossCompressUnit
+import math
 # from trace_grad import plot_grad_flow
 
 class MKR_model(nn.Module):
@@ -302,6 +304,8 @@ class MKR(object):
         print("Eval TopK")
         precision_list = {k: [] for k in k_list}
         recall_list = {k: [] for k in k_list}
+        ndcg_list = {k: [] for k in k_list}
+        map_list = { k: [] for k in k_list}
         for user in tqdm(user_list):
             test_item_list = list(item_set - train_record[user])
             item_score_map = dict()
@@ -312,16 +316,25 @@ class MKR(object):
             for item, score in zip(items, scores):
                 item_score_map[item] = score
             item_score_pair_sorted = sorted(item_score_map.items(), key=lambda x: x[1], reverse=True)
+            #item sorted is the item-score pair, item means the items' ids
             item_sorted = [i[0] for i in item_score_pair_sorted]
+            
             for k in k_list:
                 hit_num = len(set(item_sorted[:k]) & test_record[user])
                 precision_list[k].append(hit_num / k)
                 recall_list[k].append(hit_num / len(test_record[user]))
+                _ndcg,_map = self.get_NDCG_MAP(item_sorted[:k],test_record[user])
+                ndcg_list[k].append(_ndcg)
+                map_list[k].append(_map)
         precision = [np.mean(precision_list[k]) for k in k_list]
         recall = [np.mean(recall_list[k]) for k in k_list]
         f1 = [2 / (1 / precision[i] + 1 / recall[i]) for i in range(len(k_list))]
-
-        return precision, recall, f1
+        NDCG = [np.mean(ndcg_list[k]) for k in k_list]
+        MAP = [np.mean(map_list[k]) for k in k_list]
+        table = {'precision':precision,'recall':recall,'f1':f1,'NDCG':NDCG,'MAP':MAP}
+        df = pd.DataFrame(table)
+        print(df.T)
+        return precision, recall, f1,NDCG,MAP
 
     def _get_scores(self, user, item_list, head_list):
         # Inputs
@@ -337,3 +350,37 @@ class MKR(object):
                                  self.head_indices)
         user_embeddings, item_embeddings, _, scores = outputs
         return scores
+
+    def get_NDCG_MAP(self,item_sorted,record):
+        # assert len(item_sorted)<=len(record),"The length of record is smaller than topK."
+        # get hit predicts
+        hit_index = [] #record the index those hit the gound truth, for the map calculation
+        predict_rels = []# record the sequence of rel for the calculation of NDCG
+        for i,item in enumerate(item_sorted):  
+            if item in record: # if in record then rel is 1, means that item has an interact with the user
+                predict_rels.append(1)
+                hit_index.append(i)
+            else:
+                predict_rels.append(0)
+
+        if not hit_index: # if nothing hit
+            return 0,0
+        
+        #if hit, get the NDCG and MAP
+        record_array = np.ones(len(record))
+        if len(item_sorted)>len(record):# if the predicted len is larger than record
+            _pad_array = np.zeros(len(item_sorted)-len(record))
+            _padded_record = np.concatenate([record_array,_pad_array])
+            record_array = _padded_record
+        # if len record is smaller than topK, we have not taken any operation?? 
+        _index_of_predicts = np.array([i for i in range(1,len(item_sorted)+1)]) #generate the index of the predict sequence,start from 1
+        #NDCG
+        IDCG = np.sum(record_array[:len(_index_of_predicts)]/np.log((_index_of_predicts+1))) # remember that np.log is log_e
+        DCG = np.sum((np.exp2(np.array(predict_rels))-1)/np.log(_index_of_predicts+1)) # dcg = (2**rel -1)/log(i+1) //here i satrt from 1 our i also from 1
+        #MAP    
+        #hit index from 0
+        _map_hit_index = np.array(hit_index)+1 # idx start from 0 but in map calculation the denominator start from 1 so add 1
+        MAP = np.sum(_index_of_predicts[:len(_map_hit_index)]/_map_hit_index)/len(record)
+        return DCG/IDCG,MAP
+
+        
