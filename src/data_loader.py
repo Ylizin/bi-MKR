@@ -21,8 +21,8 @@ class RSDataset:
             rating_np = np.loadtxt(rating_file, dtype=np.int32) # load the ratings same as kg
             np.save(rating_file_prefix + '.npy', rating_np)
 
-        n_user = len(set(rating_np[:, 0]))
-        n_item = len(set(rating_np[:, 1]))
+        n_user = np.max(rating_np[:, 0])+1 #index start from 0 so max get the len-1
+        n_item = np.max(rating_np[:, 1])+1
         raw_data, data, indices = self._dataset_split(rating_np)
         # user,item
         return n_user, n_item, raw_data, data, indices
@@ -63,22 +63,37 @@ class KGDataset:
         print('Reading KG file')
 
         kg_file = paths.kg_final_user_file
-        if not self.args.user_enhanced:
+        if self.args.user_enhanced == 0:
             print('using item enhanced')
             kg_file = paths.kg_final_item_file
-        else: 
+        elif self.args.user_enhanced == 1: 
             print('using user enhanced')
-
-        kg_file_prefix,_ = os.path.splitext(kg_file)
-        if os.path.exists(kg_file_prefix + '.npy'):
-            kg = np.load(kg_file_prefix + '.npy')
+        elif self.args.user_enhanced == 2: 
+            kg_file = (paths.kg_final_item_file,paths.kg_final_user_file)
+            print('using user-item enhanced')
+        
+        if not isinstance(kg_file,(list,tuple,set)):
+            kg = self._load_kg_numpy(kg_file)
         else:
-            kg = np.loadtxt(kg_file, dtype=np.int32)# now kg is a numpy array
-            np.save(kg_file_prefix + '.npy', kg) # save the kg txt as npy, kg_final.npy
-
+            # kg file has 2 file
+            kg1 = self._load_kg_numpy(kg_file[0])
+            kg2 = self._load_kg_numpy(kg_file[1])
+            kg = np.concatenate([kg1,kg2])
+            print(kg.shape)
         # n_entity = len(set(kg[:, 0]) | set(kg[:, 2])) #take the columns 0 and 2 -- head and tail, they are entities
         n_entity = np.max(kg[:,2])+1
         n_relation = len(set(kg[:, 1]))
 
         return n_entity, n_relation, kg
+    
+    def _load_kg_numpy(self,kg_file):
+        kg = None
+        kg_file_prefix,_ = os.path.splitext(kg_file)
+        if os.path.exists(kg_file_prefix + '.npy'):
+            kg = np.load(kg_file_prefix + '.npy') # load kg
+        else:
+            kg = np.loadtxt(kg_file, dtype=np.int32)# now kg is a numpy array
+            np.save(kg_file_prefix + '.npy', kg) # save the kg txt as npy, kg_final.npy
+        return kg
+
 

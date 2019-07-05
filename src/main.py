@@ -13,7 +13,7 @@ parser.add_argument("--n_epochs", type=int, default=6, help="the number of epoch
 parser.add_argument(
     "--dim", type=int, default=8, help="dimension of user and entity embeddings"
 )
-parser.add_argument("--L", type=int, default=2, help="number of low layers")
+parser.add_argument("--L", type=int, default=1, help="number of low layers")
 parser.add_argument("--H", type=int, default=1, help="number of high layers")
 parser.add_argument("--batch_size", type=int, default=4096, help="batch size")
 parser.add_argument(
@@ -26,7 +26,7 @@ parser.add_argument(
     "--lr_kge", type=float, default=0.01, help="learning rate of KGE task"
 )
 parser.add_argument(
-    "--kge_interval", type=int, default=3, help="training interval of KGE task"
+    "--kge_interval", type=int, default=5, help="training interval of KGE task"
 )
 parser.add_argument(
     "--use_inner_product",
@@ -38,7 +38,7 @@ parser.add_argument(
     "--user_enhanced",
     type=int,
     default=1,
-    help="using the user kg enhanced of the item kg",
+    help="using the user kg enhanced of the item kg, if 0, item enhanced, 1 user enhanced, 2 user and item enhanced.",
 )
 
 """

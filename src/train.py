@@ -21,7 +21,9 @@ def train(args, rs_dataset, kg_dataset):
     # Get KG data
     n_entity = kg_dataset.n_entity
     n_relation = kg_dataset.n_relation
-    # here by out determination, the kg various from user enhanced to item enhanced
+    # here by our determination, the kg various from user kgs to item kgs
+    # if user-item enhanced the user-kg and item-kg share the same KGE module
+    # the difference between them is base on the different head indices
     kg = kg_dataset.kg
 
     # Init train sampler, if we init from a sequence it will not be replacement

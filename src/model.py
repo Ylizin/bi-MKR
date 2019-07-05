@@ -27,8 +27,10 @@ class MKR_model(nn.Module):
 
 
         # Init embeddings
-        self.user_embeddings_lookup = nn.Embedding(self.n_user, self.args.dim)
-        self.item_embeddings_lookup = nn.Embedding(self.n_item, self.args.dim)
+        # we need to merge user/item embedding tables, it makes no difference since the id of user and item are distincted
+        self.user_embeddings_lookup = nn.Embedding(self.n_user+self.n_item, self.args.dim)
+        self.item_embeddings_lookup = self.user_embeddings_lookup
+        # self.item_embeddings_lookup = nn.Embedding(self.n_item, self.args.dim)
         self.entity_embeddings_lookup = nn.Embedding(self.n_entity, self.args.dim)
         self.relation_embeddings_lookup = nn.Embedding(self.n_relation, self.args.dim)
 
@@ -57,21 +59,41 @@ class MKR_model(nn.Module):
 
     def forward(self, user_indices=None, item_indices=None, head_indices=None,
             relation_indices=None, tail_indices=None):
-
+        '''in out model, the head and the user/item has the same id 
+        
+        Keyword Arguments:
+            user_indices {[type]} -- [description] (default: {None})
+            item_indices {[type]} -- [description] (default: {None})
+            head_indices {[type]} -- [description] (default: {None})
+            relation_indices {[type]} -- [description] (default: {None})
+            tail_indices {[type]} -- [description] (default: {None})
+        
+        Returns:
+            [type] -- [description]
+        '''
         # <Lower Model>
-
+        # if user and item together in the rs stage, the head_[0] is used to enhance user and the head_[1] is used to enhance item
+        _user_item_together = True if isinstance(head_indices,list) else False
         if user_indices is not None:
-            self.user_indices = user_indices-self.n_item
+            assert (user_indices<self.n_user+self.n_item).all(), torch.max(user_indices)
+            self.user_indices = user_indices
+            # if not _user_item_together:
+            #     self.user_indices = user_indices-self.n_item # if not user item together, the user index is start from 
+            # else:
+            #     self.user_indices = user_indices
             self.user_embeddings = self.user_embeddings_lookup(self.user_indices)
             
         if item_indices is not None:
             self.item_indices = item_indices
-            assert (item_indices<self.n_item).all(), item_indices
+            assert (item_indices<self.n_item).all(), torch.max(item_indices)
             self.item_embeddings = self.item_embeddings_lookup(self.item_indices)
 
         if head_indices is not None:
             self.head_indices = head_indices
-            self.head_embeddings = self.entity_embeddings_lookup(self.head_indices)
+            if _user_item_together:
+                self.head_embeddings = [self.entity_embeddings_lookup(self.head_indices[0]),self.entity_embeddings_lookup(self.head_indices[1])]
+            else:
+                self.head_embeddings = self.entity_embeddings_lookup(self.head_indices)
 
         if relation_indices is not None:
             self.relation_indices = relation_indices
@@ -84,11 +106,21 @@ class MKR_model(nn.Module):
             self.tail_embeddings = self.entity_embeddings_lookup(self.tail_indices)
 
 
-        # Embeddings
-        if not self.user_enhanced:
-            self.item_embeddings, self.head_embeddings = self.cc_unit([self.item_embeddings, self.head_embeddings])
-        else: 
+        # Embeddings 
+        if self.user_enhanced == 1 or (self.user_enhanced==2 and not _user_item_together): # when not user-item together and enhance=2, it means inference kge, the user indicies is occupied
             self.user_embeddings, self.head_embeddings = self.cc_unit([self.user_embeddings, self.head_embeddings])
+        elif self.user_enhanced == 0:
+            self.item_embeddings, self.head_embeddings = self.cc_unit([self.item_embeddings, self.head_embeddings])
+        elif _user_item_together: # this means user and item enhanced together and train_RS, in this case, the head_indices is a tuple of user,item indices
+            self.user_embeddings, self.head_embeddings[0] = self.cc_unit([self.user_embeddings, self.head_embeddings[0]])
+            self.item_embeddings, self.head_embeddings[1] = self.cc_unit([self.item_embeddings, self.head_embeddings[1]])
+            
+
+
+        # if item_indices is not None: # item_indices is not None
+        #     self.item_embeddings, self.head_embeddings = self.cc_unit([self.item_embeddings, self.head_embeddings])
+        # elif user_indices is not None: # user indices is not None but item indices is None
+        #     self.user_embeddings, self.head_embeddings = self.cc_unit([self.user_embeddings, self.head_embeddings])
 
 
 
@@ -173,16 +205,20 @@ class MKR(object):
         self.item_indices = inputs[:, 1].long().to(self.device,
                 non_blocking=True)
         labels = inputs[:, 2].float().to(self.device)
+        # the inputs of inference rs is onlt the (user,item) tuple, not the really indices in the kg_dataset
         self.head_indices = inputs[:, 1].long().to(self.device,
-                non_blocking=True)
+                non_blocking=True) # this means that the head indices is from the same data as items
 
         # Inference
+        if self.user_enhanced == 0 or self.user_enhanced ==1:
+            pass
+        elif self.user_enhanced == 2:# for ui enhanced together
+            self.head_indices = [self.user_indices,self.item_indices]
         outputs = self.MKR_model(user_indices=self.user_indices,
-                                 item_indices=self.item_indices,
-                                 head_indices=self.head_indices,
-                                 relation_indices=None,
-                                 tail_indices=None)
-
+                                     item_indices=self.item_indices,
+                                     head_indices=self.head_indices,
+                                     relation_indices=None,
+                                     tail_indices=None)
         user_embeddings, item_embeddings, scores, scores_normalized = outputs
         return user_embeddings, item_embeddings, scores, scores_normalized, labels
 
@@ -191,7 +227,7 @@ class MKR(object):
         if not self.user_enhanced:
             self.item_indices = inputs[:, 0].long().to(self.device,
                     non_blocking=True)
-        else:
+        else: # head and user/item are same indices
             self.user_indices = inputs[:,0].long().to(self.device,
                     non_blocking=True)
         self.head_indices = inputs[:, 0].long().to(self.device,
@@ -210,6 +246,7 @@ class MKR(object):
                                      relation_indices=self.relation_indices,
                                      tail_indices=self.tail_indices)
         else:
+            # here we take the user indices as both user-item, since it makes no difference 
             outputs = self.MKR_model(user_indices=self.user_indices,
                                      item_indices=None,
                                      head_indices=self.head_indices,
@@ -326,6 +363,7 @@ class MKR(object):
                 _ndcg,_map = self.get_NDCG_MAP(item_sorted[:k],test_record[user])
                 ndcg_list[k].append(_ndcg)
                 map_list[k].append(_map)
+                
         precision = [np.mean(precision_list[k]) for k in k_list]
         recall = [np.mean(recall_list[k]) for k in k_list]
         f1 = [2 / (1 / precision[i] + 1 / recall[i]) for i in range(len(k_list))]
