@@ -27,6 +27,7 @@ def train(args, rs_dataset, kg_dataset):
     kg = kg_dataset.kg
 
     # Init train sampler, if we init from a sequence it will not be replacement
+    # here we load the whole data and get the train_set sequentially by this sampler
     train_sampler = SubsetRandomSampler(train_indices)
 
     # Init MKR model
@@ -40,7 +41,9 @@ def train(args, rs_dataset, kg_dataset):
     k_list = [5, 10, 15, 20, 25, 30, 35,40,45,50]
     train_record = get_user_record(train_data, True)
     test_record = get_user_record(test_data, False)
-    # get the whole user set
+    # to prevent cold start
+    # here only calculate users have been trainned, which means this userA has interacted tuple feed into the net
+    # and to predict this userA-item which the item has not showed in the trainning, it's guaranteed by test_record
     user_list = list(set(train_record.keys()) & set(test_record.keys()))
     # if the set is larger than user_num. we randomly choose
     if len(user_list) > user_num:
