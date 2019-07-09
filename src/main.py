@@ -34,7 +34,7 @@ parser.add_argument(
     default=True,
     help="decide user inner product or mlp",
 )
-parser.add_argument(
+parser.add_argument('-uh',
     "--user_enhanced",
     type=int,
     default=1,
