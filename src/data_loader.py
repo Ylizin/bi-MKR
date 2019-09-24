@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import paths
+import torch
 
 class RSDataset:
     def __init__(self, args):
@@ -21,7 +22,8 @@ class RSDataset:
             rating_np = np.loadtxt(rating_file, dtype=np.int32) # load the ratings same as kg
             np.save(rating_file_prefix + '.npy', rating_np)
 
-        n_user = np.max(rating_np[:, 0])+1 #index start from 0 so max get the len-1
+        # here combine user and item together, the user and item use same embedding layer but sep.ed by index
+        n_user = np.max(rating_np[:, 0])+1 #index start from 0 so max will get the len-1
         n_item = np.max(rating_np[:, 1])+1
         raw_data, data, indices = self._dataset_split(rating_np)
         # user,item
@@ -37,16 +39,33 @@ class RSDataset:
         n_ratings = rating_np.shape[0] # the num of the ratings records
 
                                         #the obj choice conducted on is the indices of all ratings
-        eval_indices = np.random.choice(list(range(n_ratings)), size=int(n_ratings * eval_ratio), replace=False) # do random choices get eval
+        eval_indices = np.random.choice(list(range(n_ratings)), size=int(n_ratings * eval_ratio), replace=False) # do random choices from n_ratings
         left = set(range(n_ratings)) - set(eval_indices) # get left ratings
         test_indices = np.random.choice(list(left), size=int(n_ratings * test_ratio), replace=False) # do random choice get test
         train_indices = list(left - set(test_indices)) # get train
 
-        train_data = rating_np[train_indices]
-        eval_data = rating_np[eval_indices]
-        test_data = rating_np[test_indices]
+        self.train_data = rating_np[train_indices]
+        self.eval_data = rating_np[eval_indices]
+        self.test_data = rating_np[test_indices]
+        return rating_np, [self.train_data, self.eval_data, self.test_data], [train_indices, eval_indices, test_indices]
+    
+    def train_sparse(self):
+        return self._get_sparse(self.train_data)
 
-        return rating_np, [train_data, eval_data, test_data], [train_indices, eval_indices, test_indices]
+    def _get_sparse(self,data):
+        '''generate sparse matrix of torch from input data(sampled from n_ratings),with format->(user,item,score)
+        返回训练集中存在的交互矩阵
+        Args:
+            data ([type]): [description]
+        '''
+        idxs = torch.tensor(data[:,:2],dtype = torch.long) # user,item -- index of sparse
+        idxs[:,0] = idxs[:,0] - self.n_item
+        values = torch.tensor(data[:,2],dtype = torch.float) # scores -- values of sparse 
+        # train 集从所有的app/lib indicies 中随机选取，所以必须使用大小为n_app * n_lib的稀疏矩阵
+        sparse_m = torch.sparse.FloatTensor(idxs.t(),values,torch.Size([self.n_user-self.n_item,self.n_item]))
+        
+        return sparse_m
+
 
 class KGDataset:
     def __init__(self, args):

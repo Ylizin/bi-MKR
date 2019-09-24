@@ -38,7 +38,7 @@ parser.add_argument('-uh',
     "--user_enhanced",
     type=int,
     default=1,
-    help="using the user kg enhanced of the item kg, if 0, item enhanced, 1 user enhanced, 2 user and item enhanced.",
+    help="using the user kg enhanced of the item kg, if 0 item enhanced, 1 user enhanced, 2 user and item enhanced.",
 )
 
 """

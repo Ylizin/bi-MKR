@@ -39,16 +39,18 @@ def train(args, rs_dataset, kg_dataset):
     # Top-K evaluation settings
     user_num = 100
     k_list = [5, 10, 15, 20, 25, 30, 35,40,45,50]
-    train_record = get_user_record(train_data, True)
-    test_record = get_user_record(test_data, False)
-    # to prevent cold start
+    train_record,train_item_set = get_user_record(train_data, True)
+    test_record,test_item_set = get_user_record(test_data, False)
+    train_sparse = rs_dataset.train_sparse()
+
+    # to prevent cold user
     # here only calculate users have been trainned, which means this userA has interacted tuple feed into the net
     # and to predict this userA-item which the item has not showed in the trainning, it's guaranteed by test_record
     user_list = list(set(train_record.keys()) & set(test_record.keys()))
     # if the set is larger than user_num. we randomly choose
     if len(user_list) > user_num:
         user_list = np.random.choice(user_list, size=user_num, replace=False)
-    item_set = set(list(range(n_item)))
+    item_set = train_item_set | test_item_set
     step = 0
     for epoch in range(args.n_epochs):
         print("Train RS")
@@ -115,7 +117,7 @@ def train(args, rs_dataset, kg_dataset):
         # top-K evaluation
         if show_topk:
             precision, recall, f1,*_ = model.topk_eval( # we take the result out inside this method by pandas,not print out again
-                user_list, train_record, test_record, item_set, k_list
+                user_list, train_record, test_record, item_set, k_list,train_sparse
             )
             # print("precision: ", end="")
             # for i in precision:
@@ -132,14 +134,18 @@ def train(args, rs_dataset, kg_dataset):
 
 
 def get_user_record(data, is_train):
+    item_set = set()
     user_history_dict = dict()
     for interaction in data:
         #
         user = interaction[0]
         item = interaction[1]
         label = interaction[2]
+        # train中，所有与user发生交互的item都会record
+        # test中，只有label维1的会在record里
         if is_train or label == 1:
             if user not in user_history_dict:
                 user_history_dict[user] = set()
             user_history_dict[user].add(item)
-    return user_history_dict
+        item_set.add(item)
+    return user_history_dict,item_set

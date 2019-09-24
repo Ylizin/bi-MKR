@@ -1,0 +1,472 @@
+kgid::description
+528::The Support Package includes static 'support libraries' that you can add to your Android application in order to use APIs that are either not available for older platform versions or that offer 'utility' APIs that aren't a part of the framework APIs. The goal is to simplify your development by offering more APIs that you can bundle with your application so you can worry less about platform versions.
+526::AdMob is one of the world's largest mobile advertising networks, offering solutions for discovery, branding and monetization on the mobile web.
+532::Firebase is a mobile platform that helps you quickly develop high-quality apps. It is made up of complementary features that you can mix-and-match to fit your needs.
+2::Google Cloud Messaging (GCM) is a service that helps developers send data from servers to their applications on Android devices.
+538::Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object. Gson can work with arbitrary Java objects including pre-existing objects that you do not have source-code of.
+3::A collection of libraries that help you design robust, testable, and maintainable apps.
+35::This open-source Java library allows you to integrate Facebook into your Android application.
+21::Picasso allows for hassle-free image loading in your application by handling ImageView recycling and download cancelation, and offering memory efficient image transformations, as well as automatic memory and disk caching.
+53::Okio is a library that complements java.io and java.nio to make it easier to access, store, and process data.
+23::Bolts is a collection of low-level libraries designed to make developing mobile apps easier.
+37::Crashlytics delivers real-time, detailed crash reports for mobile apps.
+24::Facebook Audience Network allows you to monetize your Android apps with Facebook ads.
+54::The FMOD Ex sound system is a revolutionary audio engine for game developers, multimedia developers, sound designers, musicians and audio engineers. The development of FMOD Ex is based on the years of experienced of Firelight Technologies' previous product FMOD 3. FMOD Ex is intended to push the creative boundaries of audio implementation for games and the like, whilst using minimal resources and being fully scalable. FMOD Ex provides both a low-level API and data-driven API
+73::An image loading and caching library for Android focused on smooth scrolling.
+57::Unity is a feature rich, fully integrated development engine for the creation of interactive 3D content. It provides complete, out-of-the-box functionality to assemble high-quality, high-performing content and publish to multiple platforms.
+74::A type-safe REST client for Android and Java
+38::Bundle of mobile SDKs for easy-of-use.
+25::ZXing (pronounced "zebra crossing") is an open-source, multi-format 1D/2D barcode image processing library implemented in Java, with ports to other languages.
+59::Unity Ads offer video ads for Unity and Android games
+27::PhoneGap is an HTML5 app platform that allows you to author native applications with web technologies and get access to APIs and app stores.
+39::Android library for using the Honeycomb (Android 3.0) animation API on all versions of the platform back to 1.0!
+76::Volley is an HTTP library that makes networking for Android apps easier and faster.
+40::Flurry Analytics delivers powerful insight into how consumers interact with your mobile applications in real-time.
+77::Butter Knife provides field and method binding for Android views.
+60::Chartboost provides free ad-serving technology for direct deals and cross-promotions.
+78::ReactiveX provides an API for asynchronous programming with observable streams. This API is available for Android in the RxJava and RxAndroid subprojects.
+28::Universal Image Loader for Android provides a reusable instrument for asynchronous image loading, caching and displaying.
+61::OkHttp is an efficient HTTP client providing features such as SPDY, connection pooling, transparent compression, and response caching.
+41::Android optimized event bus that simplifies communication between Activities, Fragments, Threads, Services, etc.
+80::A fast dependency injector for Android and Java
+29::Provides achievements, leaderboards, multiplayer support, and cloud storage.
+62::Social mobile ad network
+42::jsoup is a Java library for working with real-world HTML. It provides a very convenient API for extracting and manipulating data, using the best of DOM, CSS, and jquery-like methods. jsoup implements the WHATWG HTML5 specification, and parses HTML to the same DOM as modern browsers do.
+81::Paging indicator widgets compatible with the ViewPager from the Android Support Library and ActionBarSherlock.
+31::StartApp is a mobile advertising platform founded in late 2010, offering both in and out of app monetization.
+82::The Google Analytics SDK for Android makes it easy for native Android developers to collect user engagement data form their applications.
+44::Commons IO is a library of utilities to assist with developing IO functionality.
+32::OneSignal is a push notification service for mobile apps.
+83::AdColony is a premium mobile video advertising network & monetization platform.
+93::MoPub is a one-stop ad serving platform designed for mobile application publishers to manage their ad inventory on iOS and Android devices.
+45::Successor of the codehaus jackson json parser
+63::Apache Commons Codec (TM) software provides implementations of common encoders and decoders such as Base64, Hex, Phonetic and URLs.
+84::The API for client-side HTTP authentication against a server.
+64::A circular ImageView to display profile images.
+94::A library that allows use of Material designed dialogs down to API 8.
+85::Cross-platform analytics solution
+95::The Simple Logging Facade for Java or (SLF4J) serves as a simple facade or abstraction for various logging frameworks, e.g. java.util.logging, log4j and logback, allowing the end user to plug in the desired logging framework at deployment time.
+86::An asynchronous callback-based Http client for Android built on top of Apache's HttpClient libraries.
+47::SDK to measure, track & optimize mobile user acquisition campaigns
+65::Material Design ProgressBar with consistent appearance on Android 4.0+.
+97::This module provides support for MIME multipart encoded entities.
+87::Ionic is an open-source SDK for hybrid mobile app development using Web technologies.
+49::ActionBarSherlock is an extension of the compatibility library designed to facilitate the use of the action bar design pattern across all versions of Android with a single API.
+66::Vungle is a mobile video ad-network
+50::Annotations for JVM-based languages.
+67::Kotlin is a JVM based programming language and an officially supported Android language since Google I/O 2017.
+98::IntelliJ IDEA is a Java integrated development environment for developing computer software.
+68::ShortcutBadger makes your Android App show the count of unread messages as a badge on your App shortcut.
+51::The Joda project is a group of Java open-source projects that seeks to improve core Java functionality.
+99::The Guava project contains several of Google's core libraries that we rely on in our Java-based projects: collections, caching, primitives support, concurrency libraries, common annotations, string processing, I/O, and so forth.
+52::Ad network that attempts to target a global market.
+69::Implementation of ImageView for Android that supports zooming, by various touch gestures.
+100::The Amazon Mobile Ads API is an in-app display advertising solution to monetize mobile apps and games across platforms.
+88::Cocos2d-x is an open-source mobile 2D game framework written in C++.
+113::The PhoneGap Social Sharing plugin allows you to use the native sharing window of your mobile device in PhoneGap.
+89::RoundedImageView is a fast ImageView (and Drawable) that supports rounded corners (and ovals or circles).
+114::ACRA is a library enabling Android Application to automatically post their crash reports to a GoogleDoc form. It is targetted to android applications developers to help them get data from their applications when they crash or behave erroneously.
+70::In-app Billing is a Google Play service that provides checkout processing for in-app purchases.
+115::The Logging package is an ultra-thin bridge between different logging implementations.
+72::Nexage SourceKit-MRAID For Android is an open-sourced IAB MRAID 2.0 compliant rendering engine for HTML ad creatives.
+116::Twitter integration for Android apps.
+133::Wheel widget for Android
+101::Object Relational Mapping Lite (ORM Lite) provides some simple, lightweight functionality for persisting Java objects to SQL databases while avoiding the complexity and overhead of more standard ORM packages.
+90::Realm is a mobile database that runs directly inside phones, tablets or wearables.
+102::Reactive Streams is an initiative to provide a standard for asynchronous stream processing with non-blocking back pressure.
+91::Yandex AppMetrica is a real-time ad tracking and mobile app analytics solution.
+118::Launch and find your games, discover new ones, and meet awesome new people to play with.
+92::Andromo makes it easy to create Android apps, with absolutely no programming required. Thereby you can re-purpose the online content that you already have.
+103::Library to display charts in an Android Environment.
+119::The Integral Ad Science SDK measures ads and addresses issues around fraud, viewability and brand risk.
+153::Simple is a high performance XML serialization and configuration framework for Java.
+120::The Adobe AIR runtime enables developers to deploy standalone applications built with HTML, JavaScript, ActionScript, Flex, Adobe Flash Professional, and Adobe Flash Builder across platforms and devices (including Android)
+105::This is a repackaging of HttpClient for Android.
+155::Ad network that provides different ad-formats, such as pay per install, pay per action, and video ads.
+121::ZBar is an open-source software suite for reading bar codes from various sources, such as video streams, image files and raw intensity sensors.
+134::XML Pull Parser is an interface that defines parsing functionlity provided in XMLPULL V1 API
+122::JSON.simple is a simple Java toolkit for JSON. You can use JSON.simple to encode or decode JSON text.
+156::Mobile monetization and app distribution platform
+135::The AWS SDK for Android provides a library, code samples, and documentation for developers to build connected mobile applications using Amazon Web Services.
+157::Parse is a complete technology stack to power your mobile app's backend.
+123::Xamarin enables developers to create Android apps with C# and share code between different platforms.
+158::Views and Drawable for displaying animated GIFs on Android.
+136::Allows you to put banner, rich media and interactive video ads in your app.
+124::A robust native library loader for Android.
+106::The libgdx project is a cross-platform game development library written in Java with some JNI code for performance hungry sections.
+125::This is a logger with a small, extensible API which provides utility on top of Android's normal Log class.
+137::An all in one drawer library that follows the Google Material Design Guidelines.
+107::SDK that distributes surveys to mobile apps according to targeting criteria.
+126::HockeyApp collects live crash reports and feedback from your users, distributes your beta versions, and lets you analyze your test coverage.
+108::Chromium is an open-source browser project that aims to build a safer, faster, and more stable way for all Internet users to experience the web.
+138::kXML is a small XML pull parser, specially designed for constrained environments such as Applets, Personal Java or MIDP devices. In contrast to kXML 1, kXML 2 is based on the common XML pull API.
+159::Cordova (PhoneGap) Plugin to connect to the native Google's Universal Analytics SDK 3.0
+127::Android widget for cropping and rotating an image.
+109::React Native lets you build mobile apps using only JavaScript, letting you compose a mobile UI from declarative components.
+139::Chinese analytics service.
+110::Epublib is a java library for reading/writing/manipulating epub files
+140::A simple, straight-forward implementation of the Android In-app billing API.
+160::Merchants and developers can use Mobile Payment Libraries to add payment functionality to mobile apps.
+141::ironSource builds monetization, engagement, analytics and discovery tools for app developers, device manufacturers, mobile carriers and advertisers.
+111::An Android CalendarView based on the Windows 7 style clock calendar.
+161::Appodeal is an ad mediation solution for mobile apps.
+112::SeattleClouds.com provides a set of online tools that help build and design Android and iOS applications using HTML, CSS and configurable native modules.
+128::The AppBrain SDK offers free services for app developers to monetize and to manage their Android apps.
+142::prime31 Unity plugins provide an easy way to incorporate Android native features into your application.
+162::Yoga is a cross-platform layout engine which implements Flexbox.
+144::SlidingMenu is an open-source Android library that allows developers to easily create applications with sliding menus.
+163::Provides a simple way to add a draggable sliding up panel (popularized by Google Music and Google Maps) to an Android application.
+173::Milkman Games Extensions offer functionality like push notifications and in app billing for Adobe AIR based apps.
+164::The Kawa language framework provides an implementation of 'Scheme', which is in the Lisp family of programming languages.
+145::Revmob is an ad network specialized in user acquisition and brand promotion.
+129::kObjects is a collection of small ('kilobyte') projects. Most of the projects are suitable or designed for the Java 2 Micro Edition (J2ME/MIDP).
+146::The ksoap2-android project provides a lightweight and efficient SOAP client library for the Android platform. It is a fork of the kSOAP2 library that is tested mostly on the Android platform, but should also work on other platforms using Java libraries.
+130::The Samsung In-App Purchase payment service makes it possible to sell virtual items, services, and subscriptions within the Android apps sold in Samsung Galaxy Apps.
+174::Digits lets people create an account or sign into your app using their phone number on iOS and Android.
+131::Allows Android devices to detect and interact with beacons.
+147::Animations for Android views.
+166::Android-Job is an utility library for Android to run jobs delayed in the background.
+175::A memory leak detection library for Android and Java.
+132::card.io provides fast, easy credit card scanning in mobile apps
+176::A business intelligence platform combining attribution for advertising sources with analytics and store statistics.
+193::A lightweight viewpager indicator like in Nexus 5 launcher.
+148::Signpost is the easy and intuitive solution for signing HTTP messages on the Java platform in conformance with the OAuth Core 1.0a standard.
+167::Branch increases mobile conversion, retention, and engagement through deep linking, user routing, and personalized app experiences.
+149::A web app runtime built with the latest releases of Chromium. Can also serve as a WebView that works consistently between Android versions.
+194::Written by Google, this library is an easy-to-use and efficient Java client library for accessing Google APIs using JSON and OAuth 2.0. It also supports older Google Data APIs based on XML.
+168::Google Play Licensing is a network-based service that lets an application query a trusted Google Play licensing server to determine whether the application is licensed to the current device user.
+195::A cache that uses a bounded amount of space on a filesystem. Each cache entry has a string key and a fixed number of values.
+150::A Unity plugin that provides the functionality of Android native functions.
+196::Monetization and App Distribution
+177::AndroidAsync is a low level network protocol library.
+169::Analytics platform for mobile and web.
+178::Protocol Buffers are a way of encoding structured data in an efficient yet extensible format. Google uses Protocol Buffers for almost all of its internal RPC protocols and file formats.
+151::The Amazon In-App Purchasing API enables you to offer digital content and subscriptions for purchase within apps on Amazon Appstore.
+179::The standard Java libraries fail to provide enough methods for manipulation of its core classes. Apache Commons Lang provides these extra methods.
+170::Creates human readable, relative timestamps.
+152::ImageViewTouch is an android ImageView widget with zoom and pan capabilities.
+197::Freeware Advanced Audio (AAC) Decoder for Android. This is a port of the OpenCORE aacdec open-source library to Android platform.
+180::Android-Query (AQuery) is a light-weight library for doing asynchronous tasks and manipulating UI elements in Android.
+171::An android library for list section headers that stick to the top.
+181::greenDAO is a light & fast ORM solution for Android that maps objects to SQLite databases.
+172::Amplitude provides product analytics to help companies understand user behavior.
+182::High-performance JSON processor (JSON parser + JSON generator) written in Java. Beyond basic JSON reading/writing (parsing, generating), it also offers full node-based Tree Model, as well as full OJM (Object/Json Mapper) data binding functionality.
+213::The CommonsWare Android Components, or CWAC, are open-source libraries to help solve various tactical problems with Android development. Each CWAC component is packaged as a tiny JAR file that you can add to your project (e.g., drop it in libs/), requiring at most other CWAC JARs as dependencies.
+233::Mobvista is a mobile marketing platform providing user acquisition, analytics and monetization solutions to worldwide mobile developers and publishers.
+214::A mobile application monitoring tool to help teams build high-performance, stable mobile applications.
+183::The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications.
+198::This is a small Android library project for your application to enable the users to select an arbitrary color.
+234::Comscore provides insights into the behavior of the most active mobile media consumers: smartphone owners.
+199::Scribe is a simple OAuth Java library
+215::Stripe provides a set of tools that enables businesses to accept and manage online payments.
+200::Apache James Mime4J provides a parser, MimeStreamParser, for e-mail message streams in plain rfc822 and MIME format. The parser uses a callback mechanism to report parsing events such as the start of an entity header, the start of a body, etc. If you are familiar with the SAX XML parser interface you should have no problem getting started with mime4j.
+235::Urban Airship provides a full suite of messaging and content delivery tools, including Push Notifications, Rich Media Messaging, In-App Purchase and Subscriptions.
+216::The ad platform consists of Cheetah mobile's own apps called 'Cheetah Apps' and a media ad network named 'Cheetah MediaLink' that allows advertisers to reach their audiences and app developers to monetize their apps.
+185::App analytics
+217::The Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms.
+186::JUnit is a simple framework to write repeatable tests.
+201::Small library allowing you to make a smooth indeterminate progress bar.
+236::DragSortListView (DSLV) is an extension of the Android ListView that enables drag-and-drop reordering of list items.
+218::Spongy Castle is the stock Bouncy Castle library with a couple of small changes to make it work on Android. Bouncy Castle is a Java implementation of cryptographic algorithms.
+187::AndEngine is a free Android 2D OpenGL Game Engine.
+219::OpenIAB provides an easy way to make one APK automatically use the right in-app purchase API under each store.
+237::This is a charting software library for Android applications.
+188::uCrop is an Android library that allows you to rotate and crop images for further use.
+220::JNLua (Java Native Lua) integrates the Lua Scripting Language into Java.
+189::A web platform that converts any web Rss/Atom feed to apps for Android
+238::Protocol Buffers are a way of encoding structured data in an efficient yet extensible format. JavaNano is a special code generator and runtime library designed specially for resource-restricted systems, like Android.
+221::LeadBolt is an ad network that provides different forms of in-app advertising (banner-ads, push-ads, etc.) on various platforms, including Android.
+190::Jaxen is an open-source XPath library written in Java. It is adaptable to many different object models, including DOM, XOM, dom4j, and JDOM. Is it also possible to write adapters that treat non-XML trees such as compiled Java byte code or Java beans as XML, thus enabling you to query these trees with XPath too.
+202::mobileCore provides tools to earn money from your Android app
+239::Corona is a cross-platform app development tool.
+203::This project aims to provide a reusable Pull to Refresh widget for Android.
+191::Ogury is an analytics and monetization SDK
+240::Lightweight JavaMail port for the android platform.
+204::Pushwoosh allows developers to send push notifications to their users' devices.
+222::Simplify Android M system permissions.
+192::The Spring Framework provides a comprehensive programming and configuration model for modern Java-based enterprise applications.
+223::Android-BitmapCache is a specialised cache, for use with Android Bitmap objects.
+253::Basic4android is a Rapid Application Development (RAD) tool available for the Android platform.
+224::AndroidSVG is a SVG parser and renderer for Android
+254::Titanium provides a platform for web developers to build cross-platform, native mobile applications using web technologies such as HTML, JavaScript and CSS.
+241::Mobile advertising platform with video and native ads
+205::Digital RTB ad solution
+225::Crittercism gives you real-time, actionable crash reports for mobile apps.
+206::ActiveAndroid is an active record style ORM (object relational mapper).
+226::Guice (pronounced 'juice') is a lightweight dependency injection framework for Java 5 and above
+207::Smaato aggregates 80+ leading mobile ad networks trying to serve you relevant ads
+227::Mobile SDK for Android to uniquely identify mobile devices
+255::Cuebiq owns a large and transparant location-based database to give insight in the offline customer journey.
+228::Cross-platform game development framework
+256::AdBuddiz offers full screen ads and app promotion.
+242::Full Featured HTML Framework For Building iOS & Android Apps.
+208::NeatPlug provides a number of Unity plugins for, among other things, integrating with Android SDKs and services.
+229::Avocarrot is a mobile ad exchange specialized in native ads
+257::An Android animation library which easily adds ItemAnimator to RecyclerView items.
+243::Fast, efficient Java serialization and cloning.
+209::oneAudience is a mobile intelligence provider that connects their partners with unique mobile segments.
+244::Screaming fast JSON parsing and serialization library for Android.
+210::Ad network based in Japan that offers text and banner ads.
+230::Splunk MINT is a tool that allows you to monitor and gain insights into your mobile apps.
+211::NewQuickAction(3D) is a small android library to create QuickAction dialog (with Gallery3D app style).
+231::Osmdroid provides tools and views to interact with OpenStreetMap data. The OpenStreetMapView is an almost full/free replacement for Androids MapView class.
+212::An open-source implementation of JavaScript written entirely in Java.
+245::Easy integration for services based on Kakao Platform services such as Kakao Talk and Kakao Story.
+232::ORM to work with Android databases
+246::This MultiTouch Controller class makes it much easier to write multitouch applications for Android.
+273::VuDroid is a djvu and pdf document viewer.
+247::Android library for working with VK API, authorization through VK app, using VK functions.
+293::Android libraries by Soomla, an open-source company and community of mobile developers.
+248::CleverTap provides App Analytics and User Engagement for Mobile Apps
+258::Context sensitive notifications for Android
+274::Ad network mainly targeted at US & EU traffic.
+294::Modern products for sales, marketing and support to connect with customers and help you grow faster.
+249::A modern JSON library for Android and Java.
+295:: An advertising platform and SDK providing direct access to buyers. Focused on in-app video and banner ads.
+250::AppsGeyser is a platform that allows converting any web content into an Android App
+296::RoboGuice is a framework that brings the simplicity and ease of Dependency Injection to Android, using Google's own Guice library.
+251::Airpush is a push-notification mobile ad network.
+259::mAdserve is a fully featured mobile ad server for Publishers on any mobile platform
+275::Smack is a pure Java open-source XMPP (Jabber) client library for instant messaging and presence.
+297::A robust, powerful, and very simple ORM android database library with annotation processing.
+252::A slide-out menu implementation, which allows users to navigate between views in your app.
+260::Countly is a real-time analytics platform that provides information on application usage and end-user behavior.
+313::Quantcast's intelligence platforms combine big data and machine learning to solve crucial marketing challenges.
+298::Open app developers community for monetization and cross-promotion.
+261::Segment is one place to collect customer data and send it to your tools for analytics, marketing automation, and raw data access with SQL.
+299::SVG parsing and rendering for Android
+314::HtmlCleaner is open-source HTML parser written in Java that cleans up ill-formed html, as encountered in many web documents.
+300::Aviary lets users edit their photos right in the app.
+277::PermissionsDispatcher provides a simple annotation-based API to handle runtime permissions in Android Marshmallow.
+262::JDOM provides a way to represent XML documents for easy and efficient reading, manipulation, and writing. It has a straightforward API and is an alternative to DOM and SAX, although it integrates well with both DOM and SAX.
+315::TableLayout is a lightweight Java library for setting the position and size of UI widgets using a logical table, similar to HTML tables. The core of TableLayout is UI toolkit agnostic and comes with support for libgdx, Swing, Android, and TWL.
+263::SDK for mobile install attribution and analytics for connected devices
+316::Attribution analytics to measure the value of advertising partners.
+301::SmartImageView is a drop-in replacement for Android's standard ImageView which additionally allows images to be loaded from URLs or the user's contact address book.
+278::Swelen is a mobile brand of Kwanko, specialized in the management of mobile advertising campaigns.
+264::This project is focused on creating an Android activity that allows developers to play videos that are hosted on YouTube. This allows to play YouTube videos on devices that don't have the stock YouTube player app.
+317::WeChat is a mobile communication tool supporting voice, video, photo and text messages. WeChat works on many mobile operating systems, including Android.
+302::DU Ad Platform is a mobile advertising platform developed by the Chinese web services company and search engine operator Baidu, Inc.
+279::Android book app maker is a tool to build flipping and scrolling Android book apps from text files.
+303::BugSense is a tool that collects and analyzes crash reports from mobile apps.
+280::Mobile ad performance and user behavior for targeting campaigns and in-app marketing in real-time.
+304::Android Networking is a library for doing any type of networking in Android applications which is made on top of OkHttp Networking Layer.
+281::RoboSpice is a modular android library that makes writing asynchronous network requests easy.
+305::The Dropbox API allows you to build the power of Dropbox directly into your app. The API provides methods to read and write from Dropbox securely, so your users can bring all their important files with them to your app.
+318::Currently there are two code types of code generation for protobuf: the normal version and the lite version. The lite version removes the capability of doing reflection. This is a third option for generating java code that is lighter than lite, thus the name micro. It primary goal is to be smaller and suitable for use on J2ME device.
+282::Vitamio is an open multimedia library for Android and iOS, with hardware accelerated decoder and renderer.
+319::Moga Game Controller SDK
+306::ViewBadger provides a simple way to 'badge' any given Android view at runtime without having to cater for it in layout.
+283::The Amazon GameCircle SDK offers achievements, leaderboards, and saved game syncing across multiple devices.
+265::Alipay is one of the biggest mobile and online payment solutions.
+284::A library for making OpenGL Live Wallpapers for Android.
+266::A Base64 encoder/decoder in Java.
+320::Twitter4J is an unofficial Java library for the Twitter API. With Twitter4J, you can easily integrate your Java application with the Twitter service.
+267::A lifecycle engagement platform that empowers brands to humanize connections with customers, resulting in better experiences and retention.
+321::SDKs providing access to services from Naver, a Korean internet content service company.
+307::The Nielsen app SDK measures TV viewing using TVs and mobile devices to power TV Ratings, Digital Content Ratings (DCR & DTVR), Digital Ad Ratings (DAR) and Digital Audio.
+285::LicensesDialog is an open-source library to display licenses of third-party libraries in an Android app.
+268::Ad network run by the South Korean web portal Daum.
+322::dnsjava is an implementation of DNS in Java.
+308::The android-actionbar project provides a reusable action bar component.
+286::myTarget is an advertising platform provided by Mail.Ru Group.
+269::Maximize the lifetime value of your games in real-time through PlayHaven's dashboard.
+323::The Apache Thrift software framework, for scalable cross-language services development, combines a software stack with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js, Smalltalk, OCaml and Delphi and other languages.
+309::AndroidPlot is an API for creating dynamic and static charts within your Android application.
+324::Mobile SSP and monetization platform focused on empowering mobile publishers.
+270::Speech recognition and text-to-speech library
+287::Ad mediation and cross promotion.
+310::An open-source project to provide a universal and persistent Unique Device IDentifier (UDID) solution for Android
+325::JCIFS is an open-source client library that implements the CIFS/SMB networking protocol in 100% Java.
+271::MessagePack is an efficient binary serialization format.
+326::Some android utilities, such as a HorizontalListView
+272::A basic HTTP client based on HttpUrlConnection which lets you easily make asynchronous GET, POST, PUT, and DELETE requests with automatic retries and exponential backoff.
+288::dom4j is an open-source library for working with XML, XPath and XSLT on the Java platform using the Java Collections Framework and with full support for DOM, SAX and JAXP.
+333::One SDK for ad serving, campaign management and multiple ad network integrations.
+289::The Baidu location API provides GPS access to get the users position.
+334::Video ad network.
+327::This is a repackaging of HttpClient 4.2.3 for Android, which contains some much-needed bugfixes as compared to the HttpClient in the Android SDK, which is version 4.0beta2.
+290::TNK Factory develops and operates a mobile advertising platform for advertisers in South Korea.
+335::Provides Java APIs to integrate PDF viewing, creation, searching, annotation, and editing capabilities to Android apps.
+311::A layout that you can swipe/slide to show another layout.
+328::Cocos2d is an open-source mobile 2D game framework.
+291::Verve is a location-based mobile marketing platform that connects advertisers with customers.
+336::Different pure java implementations of opensource libraries, such as zlib or ssh.
+312::Krux helps marketers, publishers and agencies drive revenue by delivering smarter content.
+337::Page curl/flip effect on Android using OpenGL ES.
+353::Incentivized video ad network, and mediation tools for video ad networks.
+329::A set of custom views used to navigate between the pages of a ViewPager
+354::Service for automatically integrating third-party services and SDKs into apps.
+338::SMACK (xmpp library) with heavy patches for Android (SASL, DNS/SRV).
+330::Tapcore allows to detect and monetize pirated app installs.
+355::TagSoup is a SAX-compliant parser written in Java that, instead of parsing well-formed or valid XML, parses HTML as it is found in the wild: poor, nasty and brutish, though quite often far from short.
+292::GameSalad is a drag and drop game platform to build 2D games with no code.
+356::Provides classes for the Java SASL API as defined in JSR28 - Java SASL (Simple Authentication and Security Layer) Specification.
+331::One of the largest Korean ad networks by Igaworks.
+373::SDK for cross-platform mobile app development.
+332::Upsight is a comprehensive web and mobile marketing platform.
+357::Ad network based in Teheran and focusing mainly on the Iranian market.
+374::Free and efficient widget for creating zoomable applications.
+339::Jaudiotagger is an Audio Tagging library that fully supports Mp3, Mp4 (Mp4 audio, M4a and M4p audio) Ogg Vorbis, Flac and Wma. There is limited support for Wav and Real formats.
+393::GreenDroid is a development library for the Android platform. It is intended to make UI developments easier and consistent through your applications.
+341::Japanese ad network
+394::Braintree allows to accept payments in your app.
+342::Webtrends Mobile Analytics provides insights into customers' engagement and loyalty.
+375::Use the AdWhirl technology to display ads from different ad networks in your Android and iPhone applications. Switch ad networks on the fly, all for free.
+395::GetJar is an independent mobile phone application store founded in Lithuania in 2004, with offices in Vilnius, Lithuania and San Mateo, California
+343::Ad network mainly active in Japan.
+358::Android Bootstrap is a library which provides several custom views styled according to the Twitter Bootstrap Specification.
+344::display.io is a mobile marketing technology company that offers application developers monetization tools.
+396::NativeX is a Minnesota-based mobile advertising platform company. Its product allows developers to integrate advertisements into mobile games.
+359::The Adobe App Measurement for Android library allows you to capture Android app activity (user, usage, behavior, gestures, etc.) and forward that data to Adobe collection servers for use in SiteCatalyst reporting.
+397::A simple library to display images in Android ListView.
+376::AppNexus PreBid Enterprise is a heading bidding solution that gives publishers control over monetization strategy.
+345::Adds recommendations to digital content for app users.
+360::Kiip is a rewards network and mobile application that offers rewards from brands and companies for virtual achievements.
+398::PubNative is a mobile publisher platform focused on native advertising for apps and mobile web.
+361::Multi-screen video ad-solution
+399::Korean mobile app advertising platform.
+377::MobClix is an Ad network mediator.
+346::A/B testing and Release Management solution for mobile apps.
+378::With Apsalar, mobile publishers can analyze, optimize and monetize user engagement in their apps.
+347::MdotM is a mobile ad network comprising of iPhone and Android apps.
+362::juniversalchardet is a Java port of 'universalchardet', that is the encoding detector library of Mozilla.
+400::A utility library for your daily Android needs
+363::The android-pulltorefresh project provides a reusable pull to refresh widget for Android.
+379::FreeWheel is an advertising management solution for cross-platform video ads.
+364::Optimizely is an experience optimization platform enabling A/B and multivariate testing.
+401::AndroidAnnotations is an open-source framework that speeds up Android development.
+380::Wrapper around Android Camera with an easy-to-use API.
+402::Beintoo is an api platform for apps developers and a web application for their end users. Using the api developers can easily define achievements for users within their apps (increase of score, loyalty, etc.) and distribute branded virtual goods as rewards.
+365::Barcode generator library for Android to generate linear 2D bar-codes in Android applications
+403::Tenjin is a platform for mobile attribution, aggregation, and analytics
+381::This project is a Java implementation of XMPP.org's XEP-0124 'Bidirectional-streams Over Synchronous HTTP (BOSH)' specification. This specification defines a protocol for transporting arbitrary XML content bidirectionally over HTTP from potentially constrained clients.
+366::AMoAd operates an ad platform for iPhone, Android and other mobile platforms.
+348::Android Billing Library implements in-app billing's full specification and offers high-level classes to use it.
+404::The SDK delivers a growth marketing platform for premium mobile brands with rewarded video, interstitial video and interstitial ads
+349::A small, yet full-featured framework that allows building View-based Android applications
+405::Framework to develop Android apps in Objective-C
+350::AdFalcon is a mobile advertising network in the Middle East aimed at providing a specialized mobile advertising experience to advertisers, publishers, developers and mobile users across the region.
+406::Tap for Tap helps app developers promote their apps & drive installs.
+382::This project provides an easy way to annotate map overlay items with a simple information balloon when using the Android Maps external library (com.google.android.maps).
+367::China's largest independent big data service platform with focus on mobile internet.
+383::SDK to add various S Pen features to your application
+368::Ad network with global reach and local targeting.
+351::PapayaMobile is an open mobile social network for Android focused on casual gaming and virtual currency.
+369::Ad network offering fullscreen- and banner-ads
+352::DataDroid is an Android library for data management.
+370::Offers banner and rich-media ad formats and targets a global audience.
+413::Ad network hosted in Japan and focusing on the smart-phone market in Asia.
+407::Android compliant java-driver to connect to a MongoDB.
+414::Video advertising network
+408::Vpon Inc. is a LBS mobile advertising company in Asia.
+384::Scoreloop provides everything you need to add social elements to any game.
+409::Add caller ID and monetize active and inactive users through post call advertising.
+385::Library project that helps to auto-adjust mobile phone settings based on where the user is.
+410::Open-source initiative for a universal and persistent UDID solution for Android.
+415::Android validation library which helps developer boil down the tedious work to three easy steps.
+386::Monetization and App Distribution
+411::Social gaming network for both Android and iOS, see global leaderboards and unlock achievements.
+371::Fractional Media is a user acquisition platform.
+416::A one-stop service platform of development, operation, and promotion for developers.
+387::Used to remotely log unhandled exceptions in Android applications.
+412::The MobPartner SDK allows you to display banners and text links from their CPA campaigns.
+372::A content discovery platform, recommending digital content to users.
+417::Android Timeline View is used to display views like tracking of shipment/order, steppers etc.
+388::Fiksu is designed to help mobile app brands achieve their business goals faster and more cost-effectively.
+433::Metaps is an ad network with Cost Per Install reward-based ads
+453::Geofencing solutions for hyperlocal targeting of users.
+418::The microlog4android project brings the microlog logging library to Android.
+454::Box Android library for using the Box REST API.
+434::AppDriver is an advertising platform for smartphone apps focusing on Asia.
+419::OpenX operates an independent ad exchange network for publishers and demand partners.
+435::A Java interface to the bit.ly and j.mp APIs.
+455::Flutter is a mobile app SDK to help developers and designers build modern mobile apps for iOS and Android.
+436::Add leaderboards, achievements, monetization, and social features to mobile games and apps.
+420::Reward currency for Android apps
+456::Jumptap provides targeted mobile advertising.
+389::Japanese ad network
+437::JTwitter is a small library providing easy access to the Twitter API. Set and get your status, manage your network of friends, message friends, maintain lists, etc.
+390::Ad network and mediation service.
+438::Socialize is the fastest way to make any app social. A drop-in social platform creates a community around your app with commenting, sharing and social media integration.
+421::A simple yet beautiful color picker component for Android.
+439::Android library to get device information in a super easy way.
+422::Medialets is a rich media ad platform for mobile platforms
+457::User acquisition and monetization platform for Android, created especially for games.
+391::Ad network offering banner ads, interstitials and video ads.
+440::Cross-platform push notifications.
+423::Library with ready-to-use components and utility classes that wrap a lot of the boilerplate that's involved when writing Android apps.
+458::HoloEverywhere brings the Holo Theme from Android 4.1 to 1.6 and above.
+392::Rhythm sells and serves video, rich media and other immersive advertising formats.
+441::Godot Engine is a free and open-source community-driven 2D and 3D game engine.
+473::Speex is an open-source/free software patent-free audio compression format designed for speech.
+442::A collection of open-source libraries for the Android platform. The collection contains a feed framework, a accounts compatibility layer for older android versions, a file cache, an image loader, and a html widget.
+474::Offers banner and full-screen ads. Launch and exit full-screen ads can be added without changing the apps sourcecode.
+443::In-App Purchasing for Android in 60+ Countries.
+475::In-app payments via phone-bill
+459::Android Instant Apps allows Android users to run your apps instantly, without installation.
+444::Global monetization provider for digital content and games
+476::SocketScan ScanAPI adds support for a number of Bluetooth barcode scanners to your Android app.
+424::Komli Mobile is a global mobile advertising network and is a part of Komli Media
+460::LifeStreet Media is a global in-app advertising company for Facebook, Apple (iOS) and Android developers.
+445::Ad network mainly active in Korea.
+477::The Airbrake notifier for Android is designed to give you instant notification of exceptions thrown from your Android applications.
+425::Jettison is a collection of Java APIs (like STaX and DOM) which read and write JSON. This allows nearly transparent enablement of JSON based web services in services frameworks like CXF or XML serialization frameworks like XStream.
+461::Ad network from China.
+446::jchardet is a java port of the source from mozilla's automatic charset detection algorithm.
+478::Ad network active in China.
+426::Offers banner and full-screen ads and is mostly active in Europe.
+462::SendDroid is an ad network focusing on push notifications for Android.
+447::TapContext is an interstitial and push ad network.
+479::SDK with services for market insights, in-app bug reporting, automated crash reporting, testing and in-app user feedback.
+427::Bump is a technology to transfer items, such as photos, files, etc. from one phone to another, once the two phones are phyically 'bumped' together.
+480::Ad network mediator.
+428::A declarative UI framework for Android
+481::Nexage's Android SDK supports all mobile ad formats, including local advertising for location-enabled applications, expandables, native video player, and more.
+429::MobWin is Tencent's in-house mobile advertising service
+463::Mobile ad mediator primarily focused on China.
+448::Android library which makes detecting gestures and sensor based events a breeze.
+464::Twitter API ME is an API for Java developers who wish to develop applications that provide any type of access to Twitter's services.
+430::SDK for marketing and analysis.
+449::Appirater is a class that you can drop into any Android app that will help remind your users to review your app on the Android Market.
+465::Ad network offering banner ads, interstitials and video ads.
+482::Ampiri mediates between ad-networks and programmatic demand (DSPs), allowing you to efficiently run your campaigns and direct demand at the same time.
+466::Payment gateway provider that helps merchants accept online and mobile credit card processing and payments via echecks.
+450::Open app developers community for monetization and cross-promotion.
+483::Ad network focused on digital content recommendations.
+467::Mobeleader is a mobile ad server that allows to monetize Android and iOS apps for the Spanish-speaking market.
+431::Ad network mediator.
+451::Plus1 is a Russian ad network.
+484::Ad network that offers banner and interstitial ads.
+468::Box OneCloud is an ecosystem of enterprise-ready mobile apps that integrate with Box. With OneCloud, users can freely access their files in hundreds of mobile applications, while ensuring that this content can be securely saved back to Box.
+485::Zubhium is a platform for making apps better.
+469::Hunt is an independent mobile advertising company targeted to the Spanish-speaking market.
+432::Chinese ad network supporting text, banner and full-screen ads.
+452::Ad network mediator.
+486::Gateway to cutting-edge advertising technology in China.
+470::An Android library to implement TicketView in android with normal, rounded and scallop corners
+493::Youmi is a mobile advertising network in China, offering promotion on mobile web and apps.
+513::A mobile ad exchange built on MobClix technology
+487::Ad network that provides sign-up ads.
+471::Java dropbox client by David Kocher
+494::Android implementation of cover flow widget.
+514::Moolah Media is a mobile performance marketing company focused on lead generation and customer acquisition.
+488::NYBus (RxBus) - A publish-subscribe library for Android and Java applications.
+472::AppHance is a mobile test support tool collecting crash logs, device info, screenshots and everything you need to resolve issues.
+489::Creating an App Inventor app begins in your browser, where you design how the app will look. Then, like fitting together puzzle pieces, you set your app's behavior.
+515::Appsfire is mobile advertising provider for promotion and monetization.
+548::Mobility solutions for the Southeast Asian market.
+490::DroidUX is a commercial Android UI component library.
+549::LiquidM self-service DSP offers a comprehensive set of campaign management tools and premium programmatic inventory.
+491::Entagged is an open-source audiofile tagger for ID3-tags.
+495::The UI Accessibility Plugin for Unity allows you to make your your game UI accessible to blind and visually impaired players.
+492::Mobile Ad Network focused on growing ad revenue for Android app developers and advertisers' ROI
+496::Adds leaderboards, asynchronous multiplayer and other social features to games.
+516::Multi row "segmented control" for Android, with a lot of customization properties.
+550::BOKU enables people to pay for things using their phone.
+517::Android traffic monetization solutions: premium Smartlinks and Automatic SDK.
+551::Quattro Wireless ad network
+568::Ad network based in China, offering interactive ads and more.
+497::BuzzCity is a global advertising network.
+518::The Video Intelligence SDK provides in-app advertising with premium video content.
+498::Chinese ad network offering horizontal and vertical banner-ads.

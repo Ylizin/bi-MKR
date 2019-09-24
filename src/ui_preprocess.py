@@ -67,7 +67,7 @@ def convert_rating(item2index,user2index,user=True):
             writer.write('%d\t%d\t1\n' % (user_id, item_id))
         
         un_interacted = item_set - pos_item_set
-        # for each user,the neg sample just the same size as pos
+        # 每一个user，从其uninteracted的item中选出和interacted的一样长的作为负样本,写入n_ratings
         for item_id in np.random.choice(list(un_interacted), size=len(pos_item_set), replace=False):
             writer.write('%d\t%d\t0\n' % (user_id, item_id))
     writer.close()
@@ -127,7 +127,10 @@ if __name__ == '__main__':
     item2index,user2index,entity2index = read_item_index_to_entity_id_file()
     convert_rating(item2index,user2index)
     convert_kg(entity2index) #convert user kg
-    print(2)
+    
+    user2index.update(item2index)
+    import pickle
+    pickle.dump(user2index,open(paths.ui2index,'wb'))
     convert_kg(entity2index,False) # convert item kg
 
     

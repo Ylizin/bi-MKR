@@ -1,160 +1,67 @@
 import sys
 import numpy as np
 import torch
+import os
 import pandas as pd
 from tqdm import tqdm
 from torch import nn
 from sklearn.metrics import roc_auc_score
 from layers import Dense, CrossCompressUnit
 import math
+import paths
+from gensim.models.ldamulticore import LdaMulticore
+from gensim.corpora.dictionary import Dictionary as gen_dict
+from gensim import corpora, models, similarities
+from scipy.spatial.distance import cosine
+
 # from trace_grad import plot_grad_flow
+from MKRModel import *
 
-class MKR_model(nn.Module):
-    def __init__(self, args, n_user, n_item, n_entity, n_relation, use_inner_product=True):
-        super(MKR_model, self).__init__()
-        print(n_user)
-        print(n_item)
-        print(n_entity)
+def load_lda_model(model_path = paths.lda_model):
+    return LdaMulticore.load(model_path,mmap='r')
 
-        # <Lower Model>
-        self.args = args
-        self.n_user = n_user
-        self.n_item = n_item
-        self.n_entity = n_entity
-        self.n_relation = n_relation
-        self.use_inner_product = args.use_inner_product
-        self.user_enhanced = args.user_enhanced
+def load_dict(model_path = paths.dict_path):
+    return gen_dict.load(model_path,mmap='r')
+
+def load_id2text(model_path = paths.id2text):
+    return pd.read_hdf(model_path,key = 'df')
+
+def load_index(lda_model,corpus,index_path = paths.index_path):
+    '''return cached index if already loaded 
+    else, the index is calcu.ed from the result of doc2bow method->corpus
+    
+    Args:
+        lda_model ([type]): [description]
+        corpus ([type]): [description]
+        index_path ([type], optional): [description]. Defaults to paths.index_path.
+    '''
+    if hasattr(load_index,'index'):
+        return load_index.index 
+    # if (os.path.exists(index_path)):
+    #     index = similarities.MatrixSimilarity.load(index_path)
+    else:
+        load_index.index = similarities.MatrixSimilarity(lda_model[corpus])  # transform corpus to LSI space and index it
+        load_index.index.save(index_path)
+    return load_index.index
 
 
-        # Init embeddings
-        # we need to merge user/item embedding tables, it makes no difference since the id of user and item are distincted
-        self.user_embeddings_lookup = nn.Embedding(self.n_user+self.n_item, self.args.dim)
-        self.item_embeddings_lookup = self.user_embeddings_lookup
-        # self.item_embeddings_lookup = nn.Embedding(self.n_item, self.args.dim)
-        self.entity_embeddings_lookup = nn.Embedding(self.n_entity, self.args.dim)
-        self.relation_embeddings_lookup = nn.Embedding(self.n_relation, self.args.dim)
-
-        self.user_mlp = nn.Sequential()
-        self.tail_mlp = nn.Sequential()
-        self.cc_unit = nn.Sequential()
-        for i_cnt in range(self.args.L):
-            self.user_mlp.add_module('user_mlp{}'.format(i_cnt),
-                                     Dense(self.args.dim, self.args.dim))
-            self.tail_mlp.add_module('tail_mlp{}'.format(i_cnt),
-                                     Dense(self.args.dim, self.args.dim))
-            self.cc_unit.add_module('cc_unit{}'.format(i_cnt),
-                                     CrossCompressUnit(self.args.dim))
-        # <Higher Model>
-        self.kge_pred_mlp = Dense(self.args.dim * 2, self.args.dim)
-        self.kge_mlp = nn.Sequential()
-        for i_cnt in range(self.args.H - 1):
-            self.kge_mlp.add_module('kge_mlp{}'.format(i_cnt),
-                                    Dense(self.args.dim * 2, self.args.dim * 2))
-        if self.use_inner_product==False:
-            self.rs_pred_mlp = Dense(self.args.dim * 2, 1)
-            self.rs_mlp = nn.Sequential()
-            for i_cnt in range(self.args.H - 1):
-                self.rs_mlp.add_module('rs_mlp{}'.format(i_cnt),
-                                       Dense(self.args.dim * 2, self.args.dim * 2))
-
-    def forward(self, user_indices=None, item_indices=None, head_indices=None,
-            relation_indices=None, tail_indices=None):
-        '''in out model, the head and the user/item has the same id 
+# def cal_lda_sim(user_texts,item_texts,lda_model,dic):
+#     user_bow = [dic.doc2bow(t) for t in user_texts]
+#     # user_bow = dic.doc2bow(user_texts)
+#     item_bow = [dic.doc2bow(t) for t in item_texts]
+#     def get_vec(model,c):
+#         vec = model.get_document_topics(c,minimum_probability= 0)
+#         _,_vec = zip(*vec)
+#         vec = np.array(_vec)
+#         return vec
+#     user_vecs = [get_vec(lda_model,b) for b in user_bow]
+#     item_vecs = [get_vec(lda_model,b) for b in item_bow]
+    
+#     lda_scores = np.array([cosine(u,i) for u,i in zip(user_vecs,item_vecs)])
+#     return lda_scores
         
-        Keyword Arguments:
-            user_indices {[type]} -- [description] (default: {None})
-            item_indices {[type]} -- [description] (default: {None})
-            head_indices {[type]} -- [description] (default: {None})
-            relation_indices {[type]} -- [description] (default: {None})
-            tail_indices {[type]} -- [description] (default: {None})
-        
-        Returns:
-            [type] -- [description]
-        '''
-        # <Lower Model>
-        # if user and item together in the rs stage, the head_[0] is used to enhance user and the head_[1] is used to enhance item
-        _user_item_together = True if isinstance(head_indices,list) else False
-        if user_indices is not None:
-            assert (user_indices<self.n_user+self.n_item).all(), torch.max(user_indices)
-            self.user_indices = user_indices
-            # if not _user_item_together:
-            #     self.user_indices = user_indices-self.n_item # if not user item together, the user index is start from 
-            # else:
-            #     self.user_indices = user_indices
-            self.user_embeddings = self.user_embeddings_lookup(self.user_indices)
-            
-        if item_indices is not None:
-            self.item_indices = item_indices
-            assert (item_indices<self.n_item).all(), torch.max(item_indices)
-            self.item_embeddings = self.item_embeddings_lookup(self.item_indices)
-
-        if head_indices is not None:
-            self.head_indices = head_indices
-            if _user_item_together:
-                self.head_embeddings = [self.entity_embeddings_lookup(self.head_indices[0]),self.entity_embeddings_lookup(self.head_indices[1])]
-            else:
-                self.head_embeddings = self.entity_embeddings_lookup(self.head_indices)
-
-        if relation_indices is not None:
-            self.relation_indices = relation_indices
-            self.relation_embeddings = self.relation_embeddings_lookup(self.relation_indices)
-
-        if tail_indices is not None:
-            self.tail_indices = tail_indices
-            assert (tail_indices<self.n_entity).all(), torch.max(tail_indices)
-
-            self.tail_embeddings = self.entity_embeddings_lookup(self.tail_indices)
 
 
-        # Embeddings 
-        if self.user_enhanced == 1 or (self.user_enhanced==2 and not _user_item_together): # when not user-item together and enhance=2, it means inference kge, the user indicies is occupied
-            self.user_embeddings, self.head_embeddings = self.cc_unit([self.user_embeddings, self.head_embeddings])
-        elif self.user_enhanced == 0:
-            self.item_embeddings, self.head_embeddings = self.cc_unit([self.item_embeddings, self.head_embeddings])
-        elif _user_item_together: # this means user and item enhanced together and train_RS, in this case, the head_indices is a tuple of user,item indices
-            self.user_embeddings, self.head_embeddings[0] = self.cc_unit([self.user_embeddings, self.head_embeddings[0]])
-            self.item_embeddings, self.head_embeddings[1] = self.cc_unit([self.item_embeddings, self.head_embeddings[1]])
-            
-
-
-        # if item_indices is not None: # item_indices is not None
-        #     self.item_embeddings, self.head_embeddings = self.cc_unit([self.item_embeddings, self.head_embeddings])
-        # elif user_indices is not None: # user indices is not None but item indices is None
-        #     self.user_embeddings, self.head_embeddings = self.cc_unit([self.user_embeddings, self.head_embeddings])
-
-
-
-        # <Higher Model>
-        if user_indices is not None and item_indices is not None:
-            # RS
-            self.user_embeddings = self.user_mlp(self.user_embeddings)
-            if self.use_inner_product:
-                # [batch_size]
-                self.scores = torch.sum(self.user_embeddings * self.item_embeddings, 1)
-            else:
-                # [batch_size, dim * 2]
-                self.user_item_concat = torch.cat([self.user_embeddings, self.item_embeddings], 1)
-                self.user_item_concat = self.rs_mlp(self.user_item_concat)
-                # [batch_size]
-                self.scores = torch.squeeze(self.rs_pred_mlp(self.user_item_concat))
-            self.scores_normalized = torch.sigmoid(self.scores)
-            outputs = [self.user_embeddings, self.item_embeddings, self.scores, self.scores_normalized]
-        if relation_indices is not None:
-            # KGE
-            self.tail_embeddings = self.tail_mlp(self.tail_embeddings)
-            # [batch_size, dim * 2]
-            self.head_relation_concat = torch.cat([self.head_embeddings, self.relation_embeddings], 1)
-            self.head_relation_concat = self.kge_mlp(self.head_relation_concat)
-            # [batch_size, 1]
-            self.tail_pred = self.kge_pred_mlp(self.head_relation_concat)
-            self.tail_pred = torch.sigmoid(self.tail_pred)
-            self.scores_kge = torch.sigmoid(torch.sum(self.tail_embeddings * self.tail_pred, 1))
-            self.rmse = torch.mean(
-                torch.sqrt(torch.sum(torch.pow(self.tail_embeddings -
-                           self.tail_pred, 2), 1) / self.args.dim))
-            outputs = [self.head_embeddings, self.tail_embeddings, self.scores_kge, self.rmse]
-
-        return outputs
 
 
 class MKR(object):
@@ -163,13 +70,16 @@ class MKR(object):
         self.args = args
         self.user_enhanced = args.user_enhanced
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.lda = load_lda_model()
+        self.lda_dict = load_dict()
+        self.id2text = load_id2text()
         self._parse_args(n_users, n_items, n_entities, n_relations)
         self._build_model()
         self._build_loss()
         self._build_ops()
 
     def _parse_args(self, n_users, n_items, n_entities, n_relations):
-        self.n_user = n_users
+        self.n_user = n_users - n_items
         self.n_item = n_items
         self.n_entity = n_entities
         self.n_relation = n_relations
@@ -230,6 +140,7 @@ class MKR(object):
         else: # head and user/item are same indices
             self.user_indices = inputs[:,0].long().to(self.device,
                     non_blocking=True)
+
         self.head_indices = inputs[:, 0].long().to(self.device,
                 non_blocking=True)
         self.relation_indices = inputs[:, 1].long().to(self.device,
@@ -337,13 +248,30 @@ class MKR(object):
 
         return auc, acc
 
-    def topk_eval(self, user_list, train_record, test_record, item_set, k_list):
+    def _attatch_train_sparse(self,train_sparse):
+        if self.user_enhanced == 1: # user enhanced
+            # 获取所有的user的description
+            train_texts_bow = self.id2text.loc[range(self.n_item,self.n_user+self.n_item),'description'].apply(self.lda_dict.doc2bow)
+            self.index = load_index(self.lda,train_texts_bow)
+        elif self.user_enhanced == 0: # item enhanced:
+            # 获取所有item的des
+            train_texts_bow = self.id2text.loc[range(self.n_item),'description'].apply(self.lda_dict.doc2bow)
+            self.index = load_index(self.lda,train_texts_bow)
+
+    def topk_eval(self, user_list, train_record, test_record, item_set, k_list,train_sparse = None):
         print("Eval TopK")
+        self._attatch_train_sparse(train_sparse)
+
+        if train_sparse is not None:
+            self.train_sparse = train_sparse
+
         precision_list = {k: [] for k in k_list}
         recall_list = {k: [] for k in k_list}
         ndcg_list = {k: [] for k in k_list}
         map_list = { k: [] for k in k_list}
         for user in tqdm(user_list):
+            # 整体项集去除出现在train record中的item后作为待预测，得到的预测值与test record中的真实值做评估
+            # train record记录所有出现的lib，test record仅记录label为1 的lib
             test_item_list = list(item_set - train_record[user])
             item_score_map = dict()
             scores = self._get_scores(np.array([user]*len(test_item_list)),
@@ -356,7 +284,7 @@ class MKR(object):
             #item sorted is the item-score pair, item means the items' ids
             item_sorted = [i[0] for i in item_score_pair_sorted]
             
-            for k in k_list:
+            for k in k_list: # topk_list
                 hit_num = len(set(item_sorted[:k]) & test_record[user])
                 precision_list[k].append(hit_num / k)
                 recall_list[k].append(hit_num / len(test_record[user]))
@@ -376,17 +304,47 @@ class MKR(object):
 
     def _get_scores(self, user, item_list, head_list):
         # Inputs
+        # print(user)
+        # print(item_list)
         user = torch.from_numpy(user)
         item_list = torch.from_numpy(item_list)
         head_list = torch.from_numpy(head_list)
         self.user_indices = user.long().to(self.device)
         self.item_indices = item_list.long().to(self.device)
         self.head_indices = head_list.long().to(self.device)
-
+ 
         self.MKR_model.eval()
+
         outputs = self.MKR_model(self.user_indices, self.item_indices,
                                  self.head_indices)
         user_embeddings, item_embeddings, _, scores = outputs
+
+        # item_text = self.id2text.loc[item_list]['description'].apply(self.lda_dict.doc2bow)
+        # doc2bow process input descriptions 
+        if self.user_enhanced == 1:
+            user_bow = self.id2text.loc[user,'description'].apply(self.lda_dict.doc2bow)
+            user_vec = self.lda[user_bow]
+            sim_vec = torch.tensor(self.index[user_vec])
+            # result->(batch,n_item)    shape of (n_item,n_user)
+            lda_scores = self.train_sparse.t()\
+            .mm(
+                        # shape of (n_user,batch)
+                        sim_vec.t() 
+            ).t()
+            lda_scores = torch.gather(lda_scores,1,self.item_indices.view(-1,1)).view(-1)
+        elif self.user_enhanced == 0:
+            item_bow = self.id2text.loc[item_list,'description'].apply(self.lda_dict.doc2bow)
+            item_vec = self.lda[item_bow]
+            sim_vec = torch.tensor(self.index[item_vec])
+            # result->(batch,n_item)    shape of (n_item,n_user)
+            lda_scores = self.train_sparse\
+            .mm(
+                        # shape of (n_user,batch)
+                        sim_vec.t() 
+            ).t()
+            lda_scores = torch.gather(lda_scores,1,(self.user_indices-self.n_item).view(-1,1)).view(-1)
+
+        scores = 1.0*lda_scores + 0.0*scores    
         return scores
 
     def get_NDCG_MAP(self,item_sorted,record):

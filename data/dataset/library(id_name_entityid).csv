@@ -1,0 +1,472 @@
+﻿id,name,kgid
+gcm,Google Cloud Messaging (GCM),2
+android_arch,Android Architecture Components,3
+picasso,Picasso,21
+bolts,BoltsFramework,23
+facebook_ads,Facebook Audience Network,24
+zxing,Google ZXing,25
+phonegap,PhoneGap / Apache Cordova,27
+image-loader,Universal Image Loader,28
+google_games,Google Play Games Services,29
+startapp,Startapp,31
+onesignal,OneSignal,32
+facebook,Facebook,35
+crashlytics,Crashlytics,37
+fabric,fabric,38
+nineoldandroids,NineOldAndroids,39
+flurry,Flurry Analytics,40
+eventbus,greenrobot EventBus,41
+jsoup,jsoup: Java HTML Parser,42
+apache_io,Apache Commons I/O,44
+fasterxml_jackson,FasterXML Jackson,45
+appsflyer,AppsFlyer,47
+sherlock,Actionbar Sherlock,49
+jetbrains_annotations,JetBrains Annotations,50
+joda,Joda,51
+inmobi,InMobi,52
+okio,Okio,53
+fmod,FMOD Ex Programmers API,54
+unity,Unity 3D,57
+unity_ads,Unity Ads,59
+chartboost,Chartboost,60
+okhttp,okHttp,61
+applovin,AppLovin,62
+apache_codec,Apache Commons Codec,63
+circle_image_view,CircleImageView,64
+material_progress_bar,MaterialProgressBar,65
+vungle,Vungle,66
+kotlin,Kotlin,67
+shortcutbadger,ShortcutBadger,68
+photoview,PhotoView,69
+market_billing,Google Play In-app Billing,70
+nexage_mraid,Nexage SourceKit-MRAID For Android,72
+glide,Glide,73
+retrofit,Retrofit,74
+volley,Volley,76
+butterknife,Butter Knife,77
+reactivex,ReactiveX,78
+dagger,Dagger,80
+vpi,ViewPager indicator,81
+analytics,Google Analytics,82
+adcolony,AdColony,83
+apache_http_auth,Apache Http Auth,84
+moat,Moat Analytics,85
+loopj_asynchttpclient,Android Asynchronous Http Client,86
+ionic,Ionic Framework,87
+cocos2dx,Cocos2D-X,88
+rounded_image_view,RoundedImageView,89
+realm,Realm,90
+yandex_metrica,Yandex Metrica,91
+andromo,Andromo,92
+mopub,MoPub,93
+materialdialogs,Material Dialogs,94
+slf4j,Simple Logging Facade for Java (SLF4J),95
+apache_httpmime,Apache HttpMime API,97
+intellij_idea,IntelliJ IDEA,98
+guava,Google Guava,99
+amazon_ads,Amazon Mobile Ads,100
+ormlite,OrmLite,101
+reactive_streams,Reactive Streams,102
+mpandroidchart,MPAndroidChart,103
+msebera_httpclient,HttpClient for Android,105
+libgdx,libgdx,106
+pollfish,Pollfish,107
+chromium,Chromium,108
+react_native,React Native,109
+epublib,epublib,110
+calendarview,Android CalendarView,111
+seattleclouds,SeattleClouds,112
+phonegapsocialsharing,PhoneGap Social Sharing,113
+acra,ACRA,114
+apache_logging,Apache Commons Logging,115
+twitterkit,Twitter Kit,116
+heyzap,HeyZap,118
+integral-ad-science,Integral Ad Science,119
+air,Adobe AIR,120
+zbar,ZBar bar code reader,121
+json_simple,JSON.simple,122
+xamarin,Xamarin,123
+relinker,ReLinker,124
+timber,Timber,125
+hockey_app,HockeyApp,126
+edmodo_cropper,Cropper,127
+appbrain,AppBrain SDK,128
+kobjects,kObjects Utilities,129
+samsung_iap,Samsung In-App Purchase,130
+altbeacon,Android Beacon Library,131
+card.io,card.io,132
+kankanwheel,android-wheel,133
+xmlpull,XML Pull Parsing,134
+amazon_aws,Amazon AWS SDK for Android,135
+millennial,Millennial Media,136
+material_drawer,MaterialDrawer,137
+kxml2,kXML,138
+umeng,Umeng,139
+anjlab_billing,Android In-App Billing Library,140
+ironsource,Ironsource,141
+prime31_plugins,Prime31 Unity Plugins,142
+sliding-menu,SlidingMenu,144
+revmob,Revmob,145
+ksoap2,kSOAP 2,146
+daimajia_animations,Android View Animations,147
+oauth_signpost,SignPost OAuth,148
+crosswalkproject,Crosswalk Project,149
+unityandroidnative,Android Native Plugin for Unity,150
+amazon_iab,Amazon in-app purchasing,151
+imageviewzoom,ImageViewZoom,152
+simple_xml_serialization,Simple XML Serialization,153
+tapjoy,Tapjoy,155
+appnext,AppNext,156
+parse,Parse,157
+android_gif_drawable,Android GIF Drawable,158
+danwilson_analytics,Cordova Google Analytics Plugin,159
+paypal,Paypal SDK,160
+appodeal,Appodeal,161
+yoga,Yoga,162
+sliding_up_panel,AndroidSlidingUpPanel,163
+kawa,GNU Kawa,164
+evernotejob,Android-Job,166
+branch,Branch,167
+market_licensing,Google Play Licensing Service,168
+mixpanel,mixpanel,169
+prettytime,prettytime,170
+sticky_list_headers,StickyListHeaders,171
+amplitude,Amplitude,172
+milkmangames,Milkman Games Extensions,173
+digits,Digits for Android,174
+leakcanary,LeakCanary,175
+adjust,Adjust,176
+androidasync,AndroidAsync,177
+protobuf,Google Protocol Buffers,178
+apache_lang,Apache Commons Lang,179
+androidquery,Android Query,180
+greendao,greenDAO,181
+jackson,Jackson JSON Processor,182
+javamail,JavaMail,183
+localytics,Localytics,185
+junit,JUnit,186
+andengine,AndEngine,187
+u_crop,uCrop,188
+appyet,AppYet,189
+jaxen,Jaxen,190
+ogury,Ogury,191
+spring,Spring Framework,192
+circle_indicator,Circle Indicator,193
+google_gdata,Google GData client,194
+disklrucache,Disk LRU Cache,195
+fyber,Fyber,196
+aacdecoder,aacdecoder-android,197
+android_colorpicker,Android Color Picker,198
+scribe,Scribe OAuth,199
+apache_james,Apache James Mime4j,200
+smooth_progress_bar,SmoothProgressBar,201
+mobilecore,mobileCore,202
+handmark-pulltorefresh,Android Pull to refresh,203
+pushwoosh,Pushwoosh,204
+smartadserver,Smart AdServer,205
+activeandroid,ActiveAndroid,206
+smaato,Smaato,207
+neatplug,NeatPlug Unity Plugins,208
+oneaudience,oneAudience,209
+nend,Nend,210
+londatiga_qa,NewQuickAction/NewQuickAction3D,211
+rhino,Mozilla Rhino,212
+cwac,CommonsWare Android Components (CWAC),213
+newrelic,New Relic Mobile,214
+stripe,Stripe,215
+cheetah_mobile,Cheetah Mobile,216
+bouncycastle,The Legion of the Bouncy Castle,217
+spongycastle,Spongy Castle - Bouncy Castle for Android,218
+openiab,OpenIAB,219
+jnlua,Java Native Lua,220
+leadbolt,LeadBolt,221
+easypermissions,EasyPermissions,222
+android_bitmapcache,Android BitmapCache,223
+androidsvg,AndroidSVG,224
+crittercism,Crittercism,225
+google_guice,Google Guice,226
+threatmetrix,ThreatMetrix SDK,227
+yoyogames,Gamemaker: Studio,228
+avocarrot,Avocarrot,229
+splunkmint,Splunk MINT,230
+osmdroid,OpenStreetMap tools for Android,231
+sugarorm,SugarORM,232
+mobvista,MobVista,233
+comscore,Comscore Analytics,234
+urban_airship,Urban Airship,235
+dragsortlistview,DragSortListView,236
+achartengine,AChartEngine,237
+protobuf_nano,Google Protocol Buffers Nano,238
+corona,Corona SDK,239
+javamail_android,javamail-android,240
+supersonic,Supersonic,241
+framework7,Framework7,242
+kryo,Kryo,243
+logansquare,LoganSquare,244
+kakao,Kakao,245
+metalev_multitouch,android-multitouch-controller,246
+vkontakte,VKontakte SDK,247
+clevertap,CleverTap,248
+moshi,Moshi,249
+appsgeyser,AppsGeyser,250
+airpush,AirPush,251
+menudrawer,MenuDrawer,252
+basic4android,Basic4android,253
+appcelerator,Appcelerator (Titanium Mobile),254
+cuebiq,Cuebiq,255
+adbuddiz,AdBuddiz,256
+recyclerview_animators,RecyclerView Animators,257
+crouton,Crouton,258
+madserve,mAdserve,259
+countly,Countly,260
+segment,Segment,261
+jdom,JDOM,262
+kochava,Kochava,263
+androidytplayer,Android youtube player,264
+alipay,Alipay,265
+base64,Base64 encoder/decoder,266
+braze,Braze,267
+daum,Daum ads,268
+playhaven,Playhaven,269
+nuance,Nuance,270
+msgpack,MessagePack,271
+turbomanage_http,Basic HTTP Client,272
+vudroid,VuDroid,273
+mobfox,MobFox,274
+smack,Smack API,275
+permissions_dispatcher,PermissionsDispatcher,277
+swelen,Swelen,278
+appmk,APPMK,279
+adbrix,Adbrix,280
+robospice,RoboSpice,281
+vitamio,Vitamio,282
+amazon_gamecircle,Amazon GameCircle,283
+glwallpaperservice,GLWallpaperService,284
+licenses_dialog,LicensesDialog,285
+mytarget,MyTarget,286
+tapdaq,Tapdaq,287
+dom4j,dom4j,288
+baidu_geo,Baidu Geolocation,289
+tnk,TNK,290
+verve,Verve,291
+gamesalad,GameSalad,292
+soomla,Soomla,293
+intercom,Intercom,294
+silvermob,SilverMob,295
+roboguice,RoboGuice,296
+dbflow,DBFlow,297
+tappx,TappX,298
+svgandroid,svg-android,299
+aviary,Aviary,300
+loopj_smartimageview,Android Smart Image View,301
+du,DU,302
+bugsense,Bugsense,303
+androidnetworking,Fast Android Networking,304
+dropbox_api,Dropbox API,305
+viewbadger,Android ViewBadger,306
+nielsen,Nielsen,307
+markupartist_actionbar,android-actionbar,308
+androidplot,AndroidPlot,309
+open_udid,Open UDID,310
+swipereveallayout,SwipeRevealLayout,311
+krux,Krux,312
+quantcast,Quantcast,313
+htmlcleaner,htmlcleaner,314
+tablelayout,Tablelayout,315
+mobileapptracking,MobileAppTracking,316
+wechat,WeChat,317
+protobuf_micro,Google Protocol Buffers Micro,318
+moga,Moga,319
+twitter4j,Twitter4j,320
+naver,Naver,321
+dnsjava,dnsjava,322
+apache_thrift,Apache Thrift,323
+aerserv,AerServ,324
+jcifs,The Java CIFS Client Library (JCIFS),325
+devsmart,DevsmartLib,326
+httpclientandroidlib,HttpClient for Android,327
+cocos2d,Cocos2D,328
+viewpagerextensions,ViewPagerExtensions,329
+tapcore,tapcore,330
+adpopcorn,adPOPcorn,331
+upsight,Upsight,332
+admarvel,AdMarvel,333
+receptiv,Receptiv,334
+pdftron,PDFTron,335
+jcraft,JCraft,336
+android_page_curl,Android Page Curl,337
+measite_smack,asmack,338
+jaudiotagger,JAudiotagger,339
+adstir,Adstir,341
+webtrends,Webtrends mobile,342
+adlantis,Adlantis,343
+display_io,display.io,344
+outbrain,Outbrain,345
+apptimize,Apptimize,346
+mdotm,MdotM,347
+robotmedia,RobotMedia Billing,348
+conductor,Conductor,349
+noqoush,Noqoush AdFalcon,350
+papaya,Papaya Social,351
+datadroid,DataDroid,352
+hyprmx,HyprMX,353
+fgl_enhance,Enhance,354
+tagsoup,TagSoup,355
+novell_sasl,Novell SASL,356
+adad,AdAd,357
+androidbootstrap,Android Bootstrap,358
+omniture,Adobe App Measurement for Android,359
+kiip,Kiip,360
+yume,YuMe,361
+juniversalchardet,juniversalchardet,362
+markupartist_pulltorefresh,android-pulltorefresh,363
+optimizely,Optimizely,364
+onbarcode,OnBarcode,365
+amoad,AmoAd,366
+talkingdata,TalkingData,367
+inneractive,Inneractive,368
+conversant,Conversant,369
+byyd,byyd,370
+fractional-media,Fractional Media,371
+taboola,Taboola,372
+marmalade,Marmalade SDK,373
+zoomview,Android zooming view,374
+adwhirl,AdWhirl,375
+appnexus,AppNexus,376
+mobclix,MobClix,377
+apsalar,Apsalar,378
+freewheel,FreeWheel,379
+fotoapparat,Fotoapparat,380
+kenai,Project Kenai - jbosh,381
+mapviewballoons,mapviewballoons,382
+samsung_pen,Samsung Pen SDK,383
+scoreloop,ScoreLoop,384
+twofortyfouram_locale,Locale,385
+sponsorpay,Sponsorpay,386
+nullwire,android-remote-stacktrace,387
+fiksu,Fiksu Mobile App Marketing,388
+admaker,Mediba Admaker,389
+tapsense,TapSense,390
+tapit,TapIt,391
+rhythmone,Rhythm Premium Mobile Video Advertising,392
+greendroid,GreenDroid,393
+braintree,Braintree Client Encryption Library,394
+getjar,GetJar,395
+nativex,NativeX,396
+lazylist,LazyList,397
+pubnative,PubNative,398
+adlib,AdLib,399
+droidfu,Droid-Fu,400
+android-annotations,AndroidAnnotations,401
+beintoo,BeInToo,402
+tenjin,Tenjin,403
+youappi,YouAppi,404
+apportable,Apportable,405
+tapfortap,Tap for Tap,406
+mongodb_driver,MongoDB Java Driver,407
+vpon,Vpon,408
+calldorado,CallDorado,409
+openudid,OpenUDID,410
+openfeint,OpenFeint,411
+mobpartner,MobPartner,412
+mediba,mediba ad,413
+liverail,LiveRail,414
+awesomevalidation,AwesomeValidation,415
+wiyun,WiYun,416
+timeline_view,Timeline View,417
+microlog,microlog4android,418
+openx,OpenX,419
+pocketchange,Pocket Change,420
+color-picker-view,mColorPicker,421
+medialets,Medialets,422
+ignition,Ignition,423
+zestadz,Komli Mobile (aka ZestAdz),424
+jettison,Jettison JSON StAX Implementation,425
+madvertise,Madvertise,426
+bump,Bump,427
+litho,Litho,428
+mobwin,MobWIN,429
+marketo,Marketo Mobile,430
+mocean,mOcean,431
+adwo,Adwo,432
+metaps,Metaps,433
+appdriver,AppDriver,434
+bitlyj,bitlyj,435
+swarm,swarm,436
+jtwitter,JTwitter,437
+socialize,Socialize,438
+easydeviceinfo,EasyDeviceInfo,439
+ibm_push,IBM Mobile Push Notification,440
+godot,Godot,441
+libs_for_android,libs-for-android,442
+fortumo,Fortumo,443
+superrewards,AdKnowledge Super Rewards,444
+cauly,Cauly Ads,445
+jchardet,jchardet,446
+tapcontext,Tapcontext,447
+sensey,Sensey,448
+apppirater,Appirater,449
+digital_turbine,Digital Turbine,450
+plus1,WapStart.Plus1,451
+adiquity,AdIQuity,452
+plot_projects,Plot Projects,453
+box,Box Android API,454
+flutter,Flutter,455
+jumptap,Jumptap,456
+bee7,Bee7,457
+holo-everywhere,HoloEverywhere,458
+instant-apps,Android Instant Apps,459
+lifestreet,Lifestreet,460
+domob,domob,461
+senddroid,SendDroid,462
+adsmogo,AdsMogo,463
+twitterapime,Twitter API ME,464
+phunware,Phunware Advertising,465
+authorize_net,Authorize.net,466
+mobeleader,Mobeleader,467
+box_onecloud,Box OneCloud,468
+hunt,Hunt Mobile Ads,469
+ticketview,TicketView,470
+alt_dropbox,Alternative dropbox client,471
+apphance,Apphance,472
+speex,Speex,473
+vserv,VServ,474
+zong,Zong,475
+scanapi,SocketScan ScanAPI,476
+loopj_airbrake,Airbrake Notifier for Android,477
+madhouse,Madhouse SmartMAD,478
+applause,Applause,479
+burstly,Burstly,480
+nexage,Nexage,481
+ampiri,Ampiri,482
+ligatus,Ligatus,483
+vdopia,VDopia,484
+zubhium,Zubhium,485
+adsage,adSage,486
+flatiron,Flatiron Media,487
+nybus,NYBus,488
+appinventor,App Inventor,489
+droidux,DroidUX,490
+entagged,Entagged,491
+adpindle,AdPindle Mobile Ad Network,492
+youmi,YouMi,493
+android-coverflow,Android Coverflow,494
+unity_accessibility_plugin,Unity Accessibility Plugin,495
+fuelpowered,Fuel Powered SDK,496
+buzzcity,BuzzCity,497
+wooboo,Wooboo,498
+axonix,Axonix,513
+moolah,Moolah Media,514
+appsfire,Appsfire,515
+segmented_control,SegmentedControl,516
+madmobile,Madmobile,517
+vi,Video Intelligence,518
+admob,AdMob,526
+support_lib,Android Support library,528
+firebase,Firebase,532
+google_gson,Google gson,538
+adflex,AdFlex,548
+liquidm,LiquidM,549
+boku,Boku,550
+quattrowireless,Quattro Wireless Ads,551
+waps,WAPS,568
