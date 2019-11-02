@@ -44,7 +44,7 @@ def train(args, rs_dataset, kg_dataset):
     train_sparse = rs_dataset.train_sparse()
 
     # to prevent cold user
-    # here only calculate users have been trainned, which means this userA has interacted tuple feed into the net
+    # only calculate users have been trainned, userA feeds interacted tuples into the model
     # and to predict this userA-item which the item has not showed in the trainning, it's guaranteed by test_record
     user_list = list(set(train_record.keys()) & set(test_record.keys()))
     # if the set is larger than user_num. we randomly choose
@@ -142,7 +142,7 @@ def get_user_record(data, is_train):
         item = interaction[1]
         label = interaction[2]
         # train中，所有与user发生交互的item都会record
-        # test中，只有label维1的会在record里
+        # test中，只有label为1的会在record里
         if is_train or label == 1:
             if user not in user_history_dict:
                 user_history_dict[user] = set()

@@ -259,6 +259,7 @@ class MKR(object):
             self.index = load_index(self.lda,train_texts_bow)
 
     def topk_eval(self, user_list, train_record, test_record, item_set, k_list,train_sparse = None):
+        # test record 仅用于计算metrics的时候
         print("Eval TopK")
         self._attatch_train_sparse(train_sparse)
 
@@ -270,14 +271,16 @@ class MKR(object):
         ndcg_list = {k: [] for k in k_list}
         map_list = { k: [] for k in k_list}
         for user in tqdm(user_list):
-            # 整体项集去除出现在train record中的item后作为待预测，得到的预测值与test record中的真实值做评估
+            # 整体集去除出现在train record中的item后作为待预测，得到的预测值与test record中的真实值做评估
             # train record记录所有出现的lib，test record仅记录label为1 的lib
             test_item_list = list(item_set - train_record[user])
             item_score_map = dict()
+            # 我们首先获得除train record里面的有的item， 之外的其余item的预测值
             scores = self._get_scores(np.array([user]*len(test_item_list)),
                                       np.array(test_item_list),
                                       np.array(test_item_list))
             items = np.array(test_item_list)
+            #对所有的item进行按分数的排序，取topk
             for item, score in zip(items, scores):
                 item_score_map[item] = score
             item_score_pair_sorted = sorted(item_score_map.items(), key=lambda x: x[1], reverse=True)
@@ -332,12 +335,15 @@ class MKR(object):
                         # shape of (n_user,batch)
                         sim_vec.t() 
             ).t()
+            # gather函数，参见文档，通过从item_indicies这个tensor中取得indices，来对lda scores进行索引，来构造一个和item_indices对应的分数
+            # 其中，lda_scores 是(batch,n_item), self.item_indices 是(batch,1)
             lda_scores = torch.gather(lda_scores,1,self.item_indices.view(-1,1)).view(-1)
+
         elif self.user_enhanced == -10:
             item_bow = self.id2text.loc[item_list,'description'].apply(self.lda_dict.doc2bow)
             item_vec = self.lda[item_bow]
             sim_vec = torch.tensor(self.index[item_vec])
-            # result->(batch,n_user)    shape of (n_item,n_user)
+            # result->(batch,n_user)    trainsparse->shape of (n_item,n_user)
             lda_scores = self.train_sparse\
             .mm(
                         # shape of (n_item,batch)
