@@ -81,11 +81,13 @@ def convert_kg(entity2index,user=True):
     all_kg_entity = copy.deepcopy(entity2index)
     n_rel_ = 0
 
-    user_or_item_idx =user2index
-    out_kg_path = paths.kg_final_user_file
+    # generate kg_final_user/kg_final_item
     if not user:
         user_or_item_idx = item2index
         out_kg_path = paths.kg_final_item_file   
+    else:
+        user_or_item_idx = user2index
+        out_kg_path = paths.kg_final_user_file
     writer = open(out_kg_path,'w',encoding='utf-8')
     for line in open(paths.kg_file,encoding='utf-8').readlines():
         data = line.strip().split()
@@ -96,7 +98,7 @@ def convert_kg(entity2index,user=True):
         # if the head has no corresponding item/user
         if head_index not in entity2index:
             continue
-        # if head is not user/item continue
+        # if head is not user/item continue, controled by *user* param 
         if head_index not in user_or_item_idx:
             continue
         head_index = entity2index[head_index]
@@ -114,8 +116,6 @@ def convert_kg(entity2index,user=True):
         writer.write('%d\t%d\t%d\n' % (head_index, relation_index, tail_index))
     writer.close()
     return rel2index
-    print('number of entities (containing items): %d' % n_entity)
-    print('number of relations: %d' % n_rel_)
 
 if __name__ == '__main__':
     np.random.seed(42)
@@ -125,13 +125,14 @@ if __name__ == '__main__':
     # user2index= {}
 
     item2index,user2index,entity2index = read_item_index_to_entity_id_file()
+
     convert_rating(item2index,user2index)
     convert_kg(entity2index) #convert user kg
-    
+    convert_kg(entity2index,False) # convert item kg
+
     user2index.update(item2index)
     import pickle
     pickle.dump(user2index,open(paths.ui2index,'wb'))
-    convert_kg(entity2index,False) # convert item kg
 
     
         

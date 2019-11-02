@@ -23,11 +23,11 @@ class RSDataset:
             np.save(rating_file_prefix + '.npy', rating_np)
 
         # here combine user and item together, the user and item use same embedding layer but sep.ed by index
-        n_user = np.max(rating_np[:, 0])+1 #index start from 0 so max will get the len-1
+        n_user_item = np.max(rating_np[:, 0])+1 #index start from 0 so max will get the len-1
         n_item = np.max(rating_np[:, 1])+1
         raw_data, data, indices = self._dataset_split(rating_np)
         # user,item
-        return n_user, n_item, raw_data, data, indices
+        return n_user_item-n_item, n_item, raw_data, data, indices
 
 
     def _dataset_split(self, rating_np):
@@ -62,8 +62,7 @@ class RSDataset:
         idxs[:,0] = idxs[:,0] - self.n_item
         values = torch.tensor(data[:,2],dtype = torch.float) # scores -- values of sparse 
         # train 集从所有的app/lib indicies 中随机选取，所以必须使用大小为n_app * n_lib的稀疏矩阵
-        sparse_m = torch.sparse.FloatTensor(idxs.t(),values,torch.Size([self.n_user-self.n_item,self.n_item]))
-        
+        sparse_m = torch.sparse.FloatTensor(idxs.t(),values,torch.Size([self.n_user,self.n_item]))
         return sparse_m
 
 

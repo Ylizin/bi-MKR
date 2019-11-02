@@ -65,7 +65,7 @@ def load_index(lda_model,corpus,index_path = paths.index_path):
 
 
 class MKR(object):
-    def __init__(self, args, n_users, n_items, n_entities,
+    def __init__(self, args, n_user, n_items, n_entities,
                  n_relations):
         self.args = args
         self.user_enhanced = args.user_enhanced
@@ -73,13 +73,13 @@ class MKR(object):
         self.lda = load_lda_model()
         self.lda_dict = load_dict()
         self.id2text = load_id2text()
-        self._parse_args(n_users, n_items, n_entities, n_relations)
+        self._parse_args(n_user, n_items, n_entities, n_relations)
         self._build_model()
         self._build_loss()
         self._build_ops()
 
-    def _parse_args(self, n_users, n_items, n_entities, n_relations):
-        self.n_user = n_users - n_items
+    def _parse_args(self, n_user, n_items, n_entities, n_relations):
+        self.n_user = n_user 
         self.n_item = n_items
         self.n_entity = n_entities
         self.n_relation = n_relations
@@ -249,11 +249,11 @@ class MKR(object):
         return auc, acc
 
     def _attatch_train_sparse(self,train_sparse):
-        if self.user_enhanced == 1: # user enhanced
+        if self.user_enhanced == 1 or self.user_enhanced == 0: # user enhanced
             # 获取所有的user的description
-            train_texts_bow = self.id2text.loc[range(self.n_item,self.n_user+self.n_item),'description'].apply(self.lda_dict.doc2bow)
+            train_texts_bow = self.id2text.loc[range(self.n_item,self.n_item+self.n_user),'description'].apply(self.lda_dict.doc2bow)
             self.index = load_index(self.lda,train_texts_bow)
-        elif self.user_enhanced == 0: # item enhanced:
+        elif self.user_enhanced == -10: # item enhanced:
             # 获取所有item的des
             train_texts_bow = self.id2text.loc[range(self.n_item),'description'].apply(self.lda_dict.doc2bow)
             self.index = load_index(self.lda,train_texts_bow)
@@ -321,10 +321,11 @@ class MKR(object):
 
         # item_text = self.id2text.loc[item_list]['description'].apply(self.lda_dict.doc2bow)
         # doc2bow process input descriptions 
-        if self.user_enhanced == 1:
+        if self.user_enhanced == 1 or self.user_enhanced == 0:
             user_bow = self.id2text.loc[user,'description'].apply(self.lda_dict.doc2bow)
             user_vec = self.lda[user_bow]
             sim_vec = torch.tensor(self.index[user_vec])
+            
             # result->(batch,n_item)    shape of (n_item,n_user)
             lda_scores = self.train_sparse.t()\
             .mm(
@@ -332,17 +333,17 @@ class MKR(object):
                         sim_vec.t() 
             ).t()
             lda_scores = torch.gather(lda_scores,1,self.item_indices.view(-1,1)).view(-1)
-        elif self.user_enhanced == 0:
+        elif self.user_enhanced == -10:
             item_bow = self.id2text.loc[item_list,'description'].apply(self.lda_dict.doc2bow)
             item_vec = self.lda[item_bow]
             sim_vec = torch.tensor(self.index[item_vec])
-            # result->(batch,n_item)    shape of (n_item,n_user)
+            # result->(batch,n_user)    shape of (n_item,n_user)
             lda_scores = self.train_sparse\
             .mm(
-                        # shape of (n_user,batch)
+                        # shape of (n_item,batch)
                         sim_vec.t() 
             ).t()
-            lda_scores = torch.gather(lda_scores,1,(self.user_indices-self.n_item).view(-1,1)).view(-1)
+            lda_scores = torch.gather(lda_scores,1,(self.user_indices).view(-1,1)).view(-1)
 
         scores = 1.0*lda_scores + 0.0*scores    
         return scores
