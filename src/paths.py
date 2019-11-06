@@ -9,5 +9,6 @@ lda_model = '../data/lda_datas/lda.model'
 dict_path = '../data/lda_datas/lda.dict'
 index_path = '../data/lda_datas/index'
 
-id2text = '../data/id2text'
+id2text = '../data/test'
 ui2index = '../data/ui2index'
+bert_model = './bert_model/bert'

@@ -15,7 +15,7 @@ parser.add_argument(
 )
 parser.add_argument("--L", type=int, default=1, help="number of low layers")
 parser.add_argument("--H", type=int, default=1, help="number of high layers")
-parser.add_argument("--batch_size", type=int, default=4096, help="batch size")
+parser.add_argument("--batch_size", type=int, default=10,help="batch size")
 parser.add_argument(
     "--l2_weight", type=float, default=1e-6, help="weight of l2 regularization"
 )

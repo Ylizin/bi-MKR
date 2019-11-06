@@ -1,18 +1,23 @@
-import sys
-import numpy as np
-import torch
-import os
-import pandas as pd
-from tqdm import tqdm
-from torch import nn
-from sklearn.metrics import roc_auc_score
-from layers import Dense, CrossCompressUnit
 import math
-import paths
-from gensim.models.ldamulticore import LdaMulticore
-from gensim.corpora.dictionary import Dictionary as gen_dict
+import os
+import sys
+
+import numpy as np
+import pandas as pd
+import torch
 from gensim import corpora, models, similarities
+from gensim.corpora.dictionary import Dictionary as gen_dict
+from gensim.models.ldamulticore import LdaMulticore
 from scipy.spatial.distance import cosine
+from sklearn.metrics import roc_auc_score
+from torch import nn
+from tqdm import tqdm
+
+import model
+import paths
+from layers import CrossCompressUnit, Dense
+from TextModel import TextModel
+
 
 class MKR_model(nn.Module):
     def __init__(self, args, n_user, n_item, n_entity, n_relation, use_inner_product=True):
@@ -29,8 +34,10 @@ class MKR_model(nn.Module):
         self.n_relation = n_relation
         self.use_inner_product = args.use_inner_product
         self.user_enhanced = args.user_enhanced
+        self.id2text = model.load_id2text()
 
         # Init embeddings
+        self.text_encoder = TextModel()
         # we need to merge user/item embedding tables, it makes no difference since the id of user and item are distincted
         self.user_embeddings_lookup = nn.Embedding(self.n_user+self.n_item, self.args.dim)
         self.item_embeddings_lookup = self.user_embeddings_lookup
@@ -85,7 +92,9 @@ class MKR_model(nn.Module):
             #     self.user_indices = user_indices-self.n_item # if not user item together, the user index is start from 
             # else:
             #     self.user_indices = user_indices
-            self.user_embeddings = self.user_embeddings_lookup(self.user_indices)
+            user_text = self.id2text.loc[user_indices.cpu(),'description'].tolist()
+            user_text_embeddings = self.text_encoder(user_text)[:,0,:].squeeze()
+            self.user_embeddings = torch.cat([self.user_embeddings_lookup(self.user_indices)],dim = 1)
             
         if item_indices is not None:
             self.item_indices = item_indices

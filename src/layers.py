@@ -73,4 +73,3 @@ class CrossCompressUnit(nn.Module):
 
 
         return v_output, e_output
-

@@ -33,6 +33,8 @@ def train(args, rs_dataset, kg_dataset):
     # Init MKR model
     model = MKR(args, n_user, n_item, n_entity, n_relation)
 
+    
+
     # Init Sumwriter
     writer = SummaryWriter(args.summary_path)
 

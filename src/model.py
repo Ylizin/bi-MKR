@@ -13,7 +13,7 @@ from gensim.models.ldamulticore import LdaMulticore
 from gensim.corpora.dictionary import Dictionary as gen_dict
 from gensim import corpora, models, similarities
 from scipy.spatial.distance import cosine
-
+import pickle
 # from trace_grad import plot_grad_flow
 from MKRModel import *
 
@@ -24,7 +24,7 @@ def load_dict(model_path = paths.dict_path):
     return gen_dict.load(model_path,mmap='r')
 
 def load_id2text(model_path = paths.id2text):
-    return pd.read_hdf(model_path,key = 'df')
+    return pickle.load(open(model_path,'rb'))
 
 def load_index(lda_model,corpus,index_path = paths.index_path):
     '''return cached index if already loaded 
@@ -64,9 +64,10 @@ def load_index(lda_model,corpus,index_path = paths.index_path):
 
 
 
-class MKR(object):
+class MKR:
     def __init__(self, args, n_user, n_items, n_entities,
                  n_relations):
+        
         self.args = args
         self.user_enhanced = args.user_enhanced
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -78,6 +79,7 @@ class MKR(object):
         self._build_loss()
         self._build_ops()
 
+
     def _parse_args(self, n_user, n_items, n_entities, n_relations):
         self.n_user = n_user 
         self.n_item = n_items
@@ -87,7 +89,8 @@ class MKR(object):
     def _build_model(self):
         print("Build models")
         self.MKR_model = MKR_model(self.args, self.n_user, self.n_item, self.n_entity, self.n_relation)
-        self.MKR_model = self.MKR_model.to(self.device, non_blocking=True)
+        if torch.cuda.device_count()>=1:
+            self.MKR_model = torch.nn.DataParallel(self.MKR_model)
         for m in self.MKR_model.modules():
             if isinstance(m, nn.Linear):
                 nn.init.xavier_uniform_(m.weight)
@@ -108,7 +111,7 @@ class MKR(object):
         self.optimizer_kge = torch.optim.Adam(self.MKR_model.parameters(),
                                               lr=self.args.lr_kge)
 
-    def _inference_rs(self, inputs):
+    def _inference_rs(self, inputs,inference = False):
         # Inputs
         self.user_indices = inputs[:, 0].long().to(self.device,
                 non_blocking=True)
@@ -124,6 +127,21 @@ class MKR(object):
             pass
         elif self.user_enhanced == 2:# for ui enhanced together
             self.head_indices = [self.user_indices,self.item_indices]
+        if inference:
+            scores = []
+            self.MKR_model.eval()
+            torch.cuda.empty_cache()
+            torch.autograd.set_grad_enabled(False)
+            for user_index,item_index,head_index in zip(self.user_indices,self.item_indices,self.head_indices):
+                *_,score = self.MKR_model(user_indices=self.user_indices,
+                                     item_indices=self.item_indices,
+                                     head_indices=self.head_indices,
+                                     relation_indices=None,
+                                     tail_indices=None)
+                scores.append(score)
+            torch.autograd.set_grad_enabled(True)
+            return torch.tensor(scores),labels
+            
         outputs = self.MKR_model(user_indices=self.user_indices,
                                      item_indices=self.item_indices,
                                      head_indices=self.head_indices,
@@ -239,7 +257,7 @@ class MKR(object):
         print(inputs.shape)
         self.MKR_model.eval()
         inputs = torch.from_numpy(inputs)
-        user_embeddings, item_embeddings, _, scores, labels = self._inference_rs(inputs)
+        *_, scores, labels = self._inference_rs(inputs,True)
         labels = labels.to("cpu").detach().numpy()
         scores = scores.to("cpu").detach().numpy()
         auc = roc_auc_score(y_true=labels, y_score=scores)
@@ -316,16 +334,23 @@ class MKR(object):
         self.item_indices = item_list.long().to(self.device)
         self.head_indices = head_list.long().to(self.device)
  
+        scores = []
         self.MKR_model.eval()
-
-        outputs = self.MKR_model(self.user_indices, self.item_indices,
-                                 self.head_indices)
-        user_embeddings, item_embeddings, _, scores = outputs
-
+        torch.cuda.empty_cache()
+        torch.autograd.set_grad_enabled(False)
+        for user_index,item_index,head_index in zip(self.user_indices,self.item_indices,self.head_indices):
+            *_,score = self.MKR_model(user_indices=self.user_indices,
+                                    item_indices=self.item_indices,
+                                    head_indices=self.head_indices,
+                                    relation_indices=None,
+                                    tail_indices=None)
+            scores.append(score)
+        torch.autograd.set_grad_enabled(True)
+        scores = torch.tensor(scores)
         # item_text = self.id2text.loc[item_list]['description'].apply(self.lda_dict.doc2bow)
         # doc2bow process input descriptions 
         if self.user_enhanced == 1 or self.user_enhanced == 0:
-            user_bow = self.id2text.loc[user,'description'].apply(self.lda_dict.doc2bow)
+            user_bow = self.id2text.loc[user.cpu(),'description'].apply(self.lda_dict.doc2bow)
             user_vec = self.lda[user_bow]
             sim_vec = torch.tensor(self.index[user_vec])
             
@@ -340,7 +365,7 @@ class MKR(object):
             lda_scores = torch.gather(lda_scores,1,self.item_indices.view(-1,1)).view(-1)
 
         elif self.user_enhanced == -10:
-            item_bow = self.id2text.loc[item_list,'description'].apply(self.lda_dict.doc2bow)
+            item_bow = self.id2text.loc[item_list.cpu(),'description'].apply(self.lda_dict.doc2bow)
             item_vec = self.lda[item_bow]
             sim_vec = torch.tensor(self.index[item_vec])
             # result->(batch,n_user)    trainsparse->shape of (n_item,n_user)
