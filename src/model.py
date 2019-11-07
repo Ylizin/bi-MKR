@@ -24,6 +24,7 @@ def load_dict(model_path = paths.dict_path):
     return gen_dict.load(model_path,mmap='r')
 
 def load_id2text(model_path = paths.id2text):
+    # return pd.read_hdf(model_path,key='df')
     return pickle.load(open(model_path,'rb'))
 
 def load_index(lda_model,corpus,index_path = paths.index_path):
@@ -133,9 +134,9 @@ class MKR:
             torch.cuda.empty_cache()
             torch.autograd.set_grad_enabled(False)
             for user_index,item_index,head_index in zip(self.user_indices,self.item_indices,self.head_indices):
-                *_,score = self.MKR_model(user_indices=self.user_indices,
-                                     item_indices=self.item_indices,
-                                     head_indices=self.head_indices,
+                *_,score = self.MKR_model(user_indices=[user_index.item()],
+                                     item_indices=[item_index.item()],
+                                     head_indices=[head_index.item()],
                                      relation_indices=None,
                                      tail_indices=None)
                 scores.append(score)
@@ -339,9 +340,9 @@ class MKR:
         torch.cuda.empty_cache()
         torch.autograd.set_grad_enabled(False)
         for user_index,item_index,head_index in zip(self.user_indices,self.item_indices,self.head_indices):
-            *_,score = self.MKR_model(user_indices=self.user_indices,
-                                    item_indices=self.item_indices,
-                                    head_indices=self.head_indices,
+            *_,score = self.MKR_model(user_indices=[user_index.item()],
+                                    item_indices=[item_index.item()],
+                                    head_indices=[head_index.item()],
                                     relation_indices=None,
                                     tail_indices=None)
             scores.append(score)

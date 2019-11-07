@@ -26,6 +26,7 @@ class MKR_model(nn.Module):
         print(n_item)
         print(n_entity)
 
+        self.text_vec_length = 768
         # <Lower Model>
         self.args = args
         self.n_user = n_user
@@ -35,6 +36,8 @@ class MKR_model(nn.Module):
         self.use_inner_product = args.use_inner_product
         self.user_enhanced = args.user_enhanced
         self.id2text = model.load_id2text()
+
+        self.project_layer = nn.Linear(self.text_vec_length+args.dim,args.dim)
 
         # Init embeddings
         self.text_encoder = TextModel()
@@ -94,7 +97,7 @@ class MKR_model(nn.Module):
             #     self.user_indices = user_indices
             user_text = self.id2text.loc[user_indices.cpu(),'description'].tolist()
             user_text_embeddings = self.text_encoder(user_text)[:,0,:].squeeze()
-            self.user_embeddings = torch.cat([self.user_embeddings_lookup(self.user_indices)],dim = 1)
+            self.user_embeddings = self.project_layer(torch.cat([self.user_embeddings_lookup(self.user_indices),user_text_embeddings],dim = 1))
             
         if item_indices is not None:
             self.item_indices = item_indices
