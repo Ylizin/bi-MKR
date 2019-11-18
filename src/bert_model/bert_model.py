@@ -2,7 +2,12 @@ import torch
 from torch import nn
 import os
 from collections.abc import Iterable
-from pytorch_transformers import *
+import sys
+try:
+    from pytorch_transformers import *
+except ModuleNotFoundError:
+    print('pytorch_transformers not found, try load transformers.',file = sys.stderr)
+    from transformers import *
 
 _CUDA = torch.cuda.is_available()
 

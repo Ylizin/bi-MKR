@@ -1,0 +1,6 @@
+1.稍假与我时间，尝试lda的向量替代bert
+2.如果lda的方法可以，那么使用vae替代
+3.使用item head+text-user
+
+
+使用enriched 的作为topic输入，原始的文本作为模型的输入，topic使用hdp得到的是150

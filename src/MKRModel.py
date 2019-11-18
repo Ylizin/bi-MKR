@@ -18,6 +18,7 @@ import paths
 from layers import CrossCompressUnit, Dense
 from TextModel import TextModel
 
+_CUDA = torch.cuda.is_available()
 
 class MKR_model(nn.Module):
     def __init__(self, args, n_user, n_item, n_entity, n_relation, use_inner_product=True):
@@ -37,7 +38,8 @@ class MKR_model(nn.Module):
         self.user_enhanced = args.user_enhanced
         self.id2text = model.load_id2text()
 
-        self.project_layer = nn.Linear(self.text_vec_length+args.dim,args.dim)
+        self.project_layer = nn.Linear(args.dim+args.dim,args.dim)
+        self.project_text = nn.Linear(self.text_vec_length,args.dim)
 
         # Init embeddings
         self.text_encoder = TextModel()
@@ -50,14 +52,23 @@ class MKR_model(nn.Module):
 
         self.user_mlp = nn.Sequential()
         self.tail_mlp = nn.Sequential()
-        self.cc_unit = nn.Sequential()
+        self.user_cc_unit = nn.Sequential()
+        self.item_cc_unit = nn.Sequential()
+        self.text_cc_unit = nn.Sequential()
+
         for i_cnt in range(self.args.L):
             self.user_mlp.add_module('user_mlp{}'.format(i_cnt),
                                      Dense(self.args.dim, self.args.dim))
             self.tail_mlp.add_module('tail_mlp{}'.format(i_cnt),
                                      Dense(self.args.dim, self.args.dim))
-            self.cc_unit.add_module('cc_unit{}'.format(i_cnt),
+            self.user_cc_unit.add_module('user_cc_unit{}'.format(i_cnt),
                                      CrossCompressUnit(self.args.dim))
+            self.item_cc_unit.add_module('item_cc_unit{}'.format(i_cnt),
+                                     CrossCompressUnit(self.args.dim))
+            self.text_cc_unit.add_module('text_cc_unit{}'.format(i_cnt),
+                                     CrossCompressUnit(self.args.dim))
+
+
         # <Higher Model>
         self.kge_pred_mlp = Dense(self.args.dim * 2, self.args.dim)
         self.kge_mlp = nn.Sequential()
@@ -70,6 +81,13 @@ class MKR_model(nn.Module):
             for i_cnt in range(self.args.H - 1):
                 self.rs_mlp.add_module('rs_mlp{}'.format(i_cnt),
                                        Dense(self.args.dim * 2, self.args.dim * 2))
+
+    def fine_tune_parameters(self):
+        text_params = self.text_encoder.parameters()
+        params = self.parameters()
+        text_params_id = map(id,text_params)
+        other_params = list(filter(lambda x: id(x) not in text_params_id,params))
+        return [{'params':other_params},{'params':text_params,'lr':3e-5}]
 
     def forward(self, user_indices=None, item_indices=None, head_indices=None,
             relation_indices=None, tail_indices=None):
@@ -87,17 +105,16 @@ class MKR_model(nn.Module):
         '''
         # <Lower Model>
         # if user and item together in the rs stage, the head_[0] is used to enhance user and the head_[1] is used to enhance item
-        _user_item_together = True if isinstance(head_indices,list) else False
+        _user_item_together = True if isinstance(head_indices,(list,tuple)) else False
         if user_indices is not None:
             assert (user_indices<self.n_user+self.n_item).all(), torch.max(user_indices)
             self.user_indices = user_indices
-            # if not _user_item_together:
-            #     self.user_indices = user_indices-self.n_item # if not user item together, the user index is start from 
-            # else:
-            #     self.user_indices = user_indices
             user_text = self.id2text.loc[user_indices.cpu(),'description'].tolist()
-            user_text_embeddings = self.text_encoder(user_text)[:,0,:].squeeze()
-            self.user_embeddings = self.project_layer(torch.cat([self.user_embeddings_lookup(self.user_indices),user_text_embeddings],dim = 1))
+            user_text_embeddings = self.project_text(torch.mean(self.text_encoder(user_text),dim = 1))
+            # user_text_embeddings = self.project_text(self.text_encoder(user_text)[:,0,:].squeeze(1))
+            self.user_embeddings = self.user_embeddings_lookup(self.user_indices)
+            # self.user_embeddings = self.project_layer(torch.cat([self.user_embeddings_lookup(self.user_indices),user_text_embeddings],dim = 1))
+            self.user_embeddings,_  = self.text_cc_unit([self.user_embeddings,user_text_embeddings])
             
         if item_indices is not None:
             self.item_indices = item_indices
@@ -107,9 +124,9 @@ class MKR_model(nn.Module):
         if head_indices is not None:
             self.head_indices = head_indices
             if _user_item_together:
-                self.head_embeddings = [self.entity_embeddings_lookup(self.head_indices[0]),self.entity_embeddings_lookup(self.head_indices[1])]
+                self.head_embeddings = [self.entity_embeddings_lookup(self.head_indices[0].view(-1)),self.entity_embeddings_lookup(self.head_indices[1].view(-1))]
             else:
-                self.head_embeddings = self.entity_embeddings_lookup(self.head_indices)
+                self.head_embeddings = self.entity_embeddings_lookup(self.head_indices.view(-1))
 
         if relation_indices is not None:
             self.relation_indices = relation_indices
@@ -124,12 +141,12 @@ class MKR_model(nn.Module):
 
         # Embeddings 
         if self.user_enhanced == 1 or (self.user_enhanced==2 and not _user_item_together): # when not user-item together and enhance=2, it means inference kge, the user indicies is occupied
-            self.user_embeddings, self.head_embeddings = self.cc_unit([self.user_embeddings, self.head_embeddings])
+            self.user_embeddings, self.head_embeddings = self.user_cc_unit([self.user_embeddings, self.head_embeddings])
         elif self.user_enhanced == 0:
-            self.item_embeddings, self.head_embeddings = self.cc_unit([self.item_embeddings, self.head_embeddings])
+            self.item_embeddings, self.head_embeddings = self.item_cc_unit([self.item_embeddings, self.head_embeddings])
         elif _user_item_together: # this means user and item enhanced together and train_RS, in this case, the head_indices is a tuple of user,item indices
-            self.user_embeddings, self.head_embeddings[0] = self.cc_unit([self.user_embeddings, self.head_embeddings[0]])
-            self.item_embeddings, self.head_embeddings[1] = self.cc_unit([self.item_embeddings, self.head_embeddings[1]])
+            self.user_embeddings, self.head_embeddings[0] = self.user_cc_unit([self.user_embeddings, self.head_embeddings[0]])
+            self.item_embeddings, self.head_embeddings[1] = self.item_cc_unit([self.item_embeddings, self.head_embeddings[1]])
             
 
 

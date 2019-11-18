@@ -27,6 +27,7 @@ class RSDataset:
         n_item = np.max(rating_np[:, 1])+1
         raw_data, data, indices = self._dataset_split(rating_np)
         # user,item
+        # n_user_item is the entire length of user+item
         return n_user_item-n_item, n_item, raw_data, data, indices
 
 
@@ -58,7 +59,8 @@ class RSDataset:
         Args:
             data ([type]): [description]
         '''
-        idxs = torch.tensor(data[:,:2],dtype = torch.long) # user,item -- index of sparse
+        # data 存在的形式为 user_idx,item_idx,score
+        idxs = torch.tensor(data[:,:2],dtype = torch.long) 
         idxs[:,0] = idxs[:,0] - self.n_item
         values = torch.tensor(data[:,2],dtype = torch.float) # scores -- values of sparse 
         # train 集从所有的app/lib indicies 中随机选取，所以必须使用大小为n_app * n_lib的稀疏矩阵
